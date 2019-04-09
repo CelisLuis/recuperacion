@@ -43,7 +43,15 @@
         var app=angular.module('app',[])
         app.controller('ctrl', function($scope,$http){
            $scope.habitaciones = {!! json_encode ($datos->toArray()) !!};
-           console.log($scope.habitaciones)
+
+
+           $scope.mandarMantenimiento = function( index ) {
+               console.log( index );
+           };
+
+           $scope.editarHabitacion = function( index ) {
+               console.log( index );
+           }
         });
     </script>
 </html>

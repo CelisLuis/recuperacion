@@ -76,23 +76,16 @@
         $scope.selHabitacion = null;
         $scope.habitacion = {}; //Objeto donde se almacena la info de la habitación 
         
-      
-        $scope.guardar=function(){
-            $scope.habitacion.habitacion = $scope.selHabitacion.value //Toma el valor seleccionado en el select de tipo de habitacion
-            $scope.habitacion.cama = $scope.selCama.value //Toma el valor seleccionado en el select de tipo cama
-            console.log( $scope.habitacion ); //Imprime el objeto con la información capturada en el formulario
-           
+        $scope.guardar = function() {
+            $scope.habitacion.habitacion = $scope.selHabitacion.value;
+            $scope.habitacion.cama = $scope.selCama.value;
             $http.post('/save', $scope.habitacion).then(
                 function(response){
-                    if ( response.status == 200 ){ //Codigo 200 que indica que todo fue exitoso 
-                        $scope.selCama = null; //Devuelve el select de tipo cama a null
-                        $scope.selHabitacion = null; //Devuelve el select de tipo de habitacion a null
-                        alert("Registro completado");
-                        $scope.habitacion = {};
-                    } else {
-                        alert( "Ha ocurrido un error al momento de registrar la habitación" );
-                        return;
-                    }
+                    $scope.selCama = null;
+                    $scope.selHabitacion = null;
+                    $scope.habitacion = {};
+                }, function (errorResponse) {
+                    
                 });
         }
 
