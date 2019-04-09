@@ -24,14 +24,17 @@
                 </tr>
             </thead>
             <tbody>
-                <tr ng-repeat="habitacion in habitaciones">
-                <th scope="row">@{{ habitacion.id }}</th>
-                    <td>@{{ habitacion.nombre_habitacion }}</td>
-                    <td>@{{ habitacion.tipo_cama }}</td>
-                    <td>@{{ habitacion.cantidad_camas }}</td>
-                    <td>@{{ habitacion.cantidad_cuartos }}</td>
-                    <td>@{{ habitacion.precio_habitacion }}</td>
-                </tr>
+                @foreach($datos as $habitacion)
+                <tr>
+                    <th>{{ $habitacion->id }}</th>
+                    <td>{{$habitacion->tipo_habitacion}}</td>                    
+                    <td>{{$habitacion->tipo_cama}}</td>                    
+                    <td>{{$habitacion->cantidad_camas}}</td>                    
+                    <td>{{$habitacion->cantidad_cuartos}}</td>                    
+                    <td>{{$habitacion->precio_habitacion}}</td>                    
+                    <td><a href="{{ route('habitacion.edit', $habitacion -> id) }}"><button class="btn btn-primary" id="btnEditarUsuario">Editar</button></a></td>
+            </tr>
+                @endforeach
             </tbody>
         </table>
     </div>

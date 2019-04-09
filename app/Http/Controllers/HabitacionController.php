@@ -64,9 +64,10 @@ class HabitacionController extends Controller
      * @param  \App\Habitacion  $habitacion
      * @return \Illuminate\Http\Response
      */
-    public function edit(Habitacion $habitacion)
+    public function edit($id)
     {
-        //
+        $habitacionEdit = Habitacion::find($id);
+        return view('editarHabitacion',compact('habitacionEdit'));
     }
 
     /**
@@ -76,9 +77,13 @@ class HabitacionController extends Controller
      * @param  \App\Habitacion  $habitacion
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Habitacion $habitacion)
+    public function update(Request $request, $id)
     {
-        //
+        $datos = Habitacion::find($id);
+        $datos->cantidad_camas = $request->input('numCamas');
+        $datos->cantidad_cuartos = $request->input('numCuartos');
+        $datos->precio_habitacion = $request->input('precioHabitacion');
+        $datos->save();
     }
 
     /**

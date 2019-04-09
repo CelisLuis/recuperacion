@@ -18,6 +18,25 @@ Route::get('/', function () {
 Route::get('/addHabitacion', function () {
     return view('agregarHabitacion');
 });
+Route::get ('/editar', function (){
+   return view('editar'); 
+});
+
+Route::resource('Habitacion','HabitacionController');
+
+
+
+Route::get('habitacion/{id}/edit', [
+    'uses' => 'HabitacionController@edit',
+    'as' => 'habitacion.edit'
+]);
+
+Route::post('/update/{id}',[
+    'uses' => 'HabitacionController@update',
+    'as' => 'habitacion.update'
+]);
+
+
 
 Route::get('/mostrar', 'HabitacionController@index');
 

@@ -6,7 +6,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"
               integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
-        <title>Hotel: Marcel</title>
+        <title>Modificar habitaciones</title>
         <style type="text/css">
             a:link{text-decoration:none;}
             .danger{color: red;}
@@ -17,39 +17,26 @@
     </head>
     <body>
         <div ng-controller="ctrl" class="container top">
-            <form name="formHabitaciones" enctype="multipart/form-data">
-                
-                <div class="col">
-                    <label>Nombre de la habitación:</label>
-                    <select ng-options="habitacion.value for habitacion in tipoHabitaciones track by habitacion.id" name="habitacion" ng-model="selHabitacion" required>
-                        <option value="">Selecciona la habitación que desees</option>
-                    </select>
-                </div>
-                
-                <div class="col">
-                    <label>Tipo de cama:</label>
-                    <select ng-options="cama.value for cama in tipoCamas track by cama.id" name="cama" ng-model="selCama" required>
-                        <option value="">Selecciona la habitación que desees</option>
-                    </select>
-                </div>
-                
+            <form name="formEditHabitaciones" enctype="multipart/form-data">    
+            
                 <div class="col">
                     <label>Cantidad de cuartos:</label>
                     <input type="number" ng-model="habitacion.numCuartos" min="1" maxlength="1" oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength)" required onkeydown="return event.keyCode !== 69 && event.keyCode !== 48 ">
                 </div>
-                
+
                 <div class="col">
                     <label>Cantidad de camas:</label>
                     <input type="number" ng-model="habitacion.numCamas" min="1" maxlength="1" oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength)" required onkeydown="return event.keyCode !== 69 && event.keyCode !== 48 ">
                 </div>
-                
+
                 
                 <div class="col">
                     <label>Precio por habitación: $</label>
                     <input type="number" ng-model="habitacion.precioHabitacion" min="100" maxlength="5" oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength)" required onkeydown="return event.keyCode !== 69">
                 </div>
+                
                 <div class="col">
-                <br><button type="button" ng-click="guardar()" ng-disabled="!formHabitaciones.$valid" class="btn btn-outline-success">GUARDAR</button>
+                <br><button type="button" ng-click="editar()" ng-disabled="!formEditHabitaciones.$valid" class="btn btn-outline-success">GUARDAR</button>
                  <a href="{{url('/mostrar')}}"><button type="button" class="btn btn-outline-success" id="btnMostrar">MOSTRAR DATOS</button></a>
                 </div>
             </form>
@@ -60,7 +47,7 @@
 
 <script>
   var app=angular.module('app',[])
-    app.controller('ctrl', function($scope,$http){
+    app.controller('ctrl', function($scope,$http,$filter){
         $scope.tipoHabitaciones=[
             {id:1, value:'Sencilla'},
             {id:2, value:'Junior'},
@@ -74,26 +61,17 @@
             ];  //Arreglo con las opciones de tipo de cama
         $scope.selCama = null; 
         $scope.selHabitacion = null;
-        $scope.habitacion = {}; //Objeto donde se almacena la info de la habitación 
-        
+        //$scope.habitacion = {}; //Objeto donde se almacena la info de la habitación 
+        $scope.habitacion={!! json_encode($habitacionEdit->toArray()) !!};//Carga datos en los inputs        
       
-        $scope.guardar=function(){
-            $scope.habitacion.habitacion = $scope.selHabitacion.value //Toma el valor seleccionado en el select de tipo de habitacion
-            $scope.habitacion.cama = $scope.selCama.value //Toma el valor seleccionado en el select de tipo cama
-            console.log( $scope.habitacion ); //Imprime el objeto con la información capturada en el formulario
-           
-            $http.post('/save', $scope.habitacion).then(
-                function(response){
-                    if ( response.status == 200 ){ //Codigo 200 que indica que todo fue exitoso 
-                        $scope.selCama = null; //Devuelve el select de tipo cama a null
-                        $scope.selHabitacion = null; //Devuelve el select de tipo de habitacion a null
-                        alert("Registro completado");
-                        $scope.habitacion = {};
-                    } else {
-                        alert( "Ha ocurrido un error al momento de registrar la habitación" );
-                        return;
-                    }
-                });
+        $scope.editar=function(){
+            $http.post('/update/'+ {!! json_encode($habitacionEdit->id) !!}, $scope.habitacion).then(
+            function(response){
+                alert("¡Registro modificado con éxito!");
+                $scope.formEditHabitaciones.$setPristine();
+            },function(errorResponse){
+                alert("Ha ocurrido un error al modificar");
+            });
         }
 
     });
