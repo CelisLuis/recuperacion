@@ -14,7 +14,9 @@ class HabitacionController extends Controller
      */
     public function index()
     {
-        //
+        $habitaciones = new habitacion();
+        $datos = $habitaciones::all();
+        return view('mostrarHabitaciones', compact('datos'));
     }
 
     /**

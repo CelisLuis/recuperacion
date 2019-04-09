@@ -19,4 +19,6 @@ Route::get('/addHabitacion', function () {
     return view('agregarHabitacion');
 });
 
+Route::get('/mostrar', 'HabitacionController@index');
+
 Route::post('/save', 'HabitacionController@store');
