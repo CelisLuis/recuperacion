@@ -20,33 +20,33 @@
             <form name="formHabitaciones" enctype="multipart/form-data">
                 
                 <div class="col">
-                    <label>Nombre de la habitación</label>
+                    <label>Nombre de la habitación:</label>
                     <select ng-options="habitacion.value for habitacion in tipoHabitaciones track by habitacion.id" name="habitacion" ng-model="selHabitacion" required>
                         <option value="">Selecciona la habitación que desees</option>
                     </select>
                 </div>
                 
                 <div class="col">
-                    <label>Tipo de cama</label>
+                    <label>Tipo de cama:</label>
                     <select ng-options="cama.value for cama in tipoCamas track by cama.id" name="cama" ng-model="selCama" required>
                         <option value="">Selecciona la habitación que desees</option>
                     </select>
                 </div>
                 
                 <div class="col">
-                    <label>Cantidad de cuartos</label>
+                    <label>Cantidad de cuartos:</label>
                     <input type="number" ng-model="habitacion.numCuartos" min="1" maxlength="1" oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength)" required onkeydown="return event.keyCode !== 69 && event.keyCode !== 48 ">
                 </div>
                 
                 <div class="col">
-                    <label>Cantidad de camas</label>
+                    <label>Cantidad de camas:</label>
                     <input type="number" ng-model="habitacion.numCamas" min="1" maxlength="1" oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength)" required onkeydown="return event.keyCode !== 69 && event.keyCode !== 48 ">
                 </div>
                 
                 
                 <div class="col">
-                    <label>Precio por habitación</label>
-                    <input type="number" ng-model="habitacion.precioHabitacion" min="0" maxlength="6">
+                    <label>Precio por habitación: $</label>
+                    <input type="number" ng-model="habitacion.precioHabitacion" min="100" maxlength="5" oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength)" required onkeydown="return event.keyCode !== 69">
                 </div>
                 <div class="col">
                 <br><button type="button" ng-click="guardar()" ng-disabled="!formHabitaciones.$valid" class="btn btn-outline-success">GUARDAR</button>
