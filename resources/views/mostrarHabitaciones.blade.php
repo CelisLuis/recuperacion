@@ -40,7 +40,6 @@
         var app=angular.module('app',[])
         app.controller('ctrl', function($scope,$http){
            $scope.habitaciones = {!! json_encode ($datos->toArray()) !!};
-           console.log($scope.habitaciones)
         });
     </script>
 </html>
