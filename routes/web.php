@@ -18,3 +18,5 @@ Route::get('/', function () {
 Route::get('/addHabitacion', function () {
     return view('agregarHabitacion');
 });
+
+Route::post('/save', 'HabitacionController@store');

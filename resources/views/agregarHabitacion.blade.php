@@ -10,32 +10,38 @@
         <style type="text/css">
             a:link{text-decoration:none;}
             .danger{color: red;}
+
+            .top{
+                padding-top: 40px;
+            }
         </style>
     </head>
     <body>
-        <div ng-controller="ctrl" class="container">
+        <div ng-controller="ctrl" class="container top">
             <form name="formPacientes" enctype="multipart/form-data">
                 <div class="col">
                     <label>Nombre de la habitación</label>
-                    <select ng-options="habitacion.value for habitacion in tipoHabitaciones track by habitacion.id" name="habitacion" ng-model="habitacion" required>
-                <option value="">Selecciona la habitación que desees</option></select>
+                    <select ng-options="habitacion.value for habitacion in tipoHabitaciones track by habitacion.id" name="habitacion" ng-model="selHabitacion" required>
+                        <option value="">Selecciona la habitación que desees</option>
+                    </select>
                 </div>
                 <div class="col">
                     <label>Tipo de cama</label>
-                    <select ng-options="cama.value for cama in tipoCamas track by cama.id" name="cama" ng-model="cama" required>
-                <option value="">Selecciona la habitación que desees</option></select>
+                    <select ng-options="cama.value for cama in tipoCamas track by cama.id" name="cama" ng-model="selCama" required>
+                        <option value="">Selecciona la habitación que desees</option>
+                    </select>
                 </div>
                 <div class="col">
                     <label>Cantidad de camas</label>
-                    <input type="number" ng-model="numCamas" maxlength="1">
+                    <input type="number" ng-model="habitacion.numCamas" min="1" maxlength="1">
                 </div>
                 <div class="col">
                     <label>Cantidad de cuartos</label>
-                    <input type="number" ng-model="numCuartos" maxlength="1">
+                    <input type="number" ng-model="habitacion.numCuartos" min="0" maxlength="1">
                 </div>
                 <div class="col">
                     <label>Precio por habitación</label>
-                    <input type="number" ng-model="precioHabitacion" maxlength="6">
+                    <input type="number" ng-model="habitacion.precioHabitacion" min="0" maxlength="6">
                 </div>
                 <div class="col">
                 <br><button type="button" ng-click="guardar()" ng-disabled="!formPacientes.$valid" class="btn btn-outline-success">GUARDAR</button>
@@ -49,28 +55,39 @@
 
 <script>
   var app=angular.module('app',[])
-  app.controller('ctrl', function($scope,$http){
-     $scope.tipoHabitaciones=[
+    app.controller('ctrl', function($scope,$http){
+        $scope.selCama = null;
+        $scope.selHabitacion = null;
+        $scope.habitacion = {};
+        $scope.tipoHabitaciones=[
             {id:1, value:'Sencilla'},
             {id:2, value:'Junior'},
             {id:3, value:'Presidencial'}
         ]; 
-      $scope.tipoCamas=[
-            {id:1, value:'Individual'},
-            {id:2, value:'Matrimonial'},
-            {id:3, value:'Queen size'},
-            {id:4, value:'King size'}
-        ];
+        $scope.tipoCamas=[
+                {id:1, value:'Individual'},
+                {id:2, value:'Matrimonial'},
+                {id:3, value:'Queen size'},
+                {id:4, value:'King size'}
+            ];
       
-    $scope.guardar=function(){
-        $http.post('/save',$scope.paciente).then(
-            function(response){
-                alert("Registro completado");
-                $scope.limpiar();
-            },function(errorResponse){
+        $scope.guardar=function(){
+            $scope.habitacion.habitacion = $scope.selHabitacion.value
+            $scope.habitacion.cama = $scope.selCama.value
+            console.log( $scope.habitacion );
+            $http.post('/save', $scope.habitacion).then(
+                function(response){
+                    if ( response.status == 200 ) {
+                        alert("Registro completado");
+                        $scope.habitacion = {};
+                    } else {
+                        alert( "No se registro" );
+                        return;
+                    }
+                });
+        }
 
-            });
-        } 
+    });
     
     /*
     //guardar registros
@@ -90,7 +107,7 @@
             return Math.abs(ageDate.getUTCFullYear() - 1970);
     }//Calcula la edad a partir de la fecha de nac
 
-});
+
 function inputLetras(e){ 
        letrasAdmit = " áéíóúabcdefghijklmnñopqrstuvwxyz";//Teclas que se pondrán presionar
        exepciones = "8-32-39-46"; //(BackSpace , flecha izquierda, flecha derecha, Supr).
