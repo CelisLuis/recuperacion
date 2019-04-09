@@ -76,20 +76,16 @@
                 {id:4, value:'King size'}
             ];
       
-        $scope.guardar=function(){
-            $scope.habitacion.habitacion = $scope.selHabitacion.value
-            $scope.habitacion.cama = $scope.selCama.value
+        $scope.guardar = function() {
+            $scope.habitacion.habitacion = $scope.selHabitacion.value;
+            $scope.habitacion.cama = $scope.selCama.value;
             $http.post('/save', $scope.habitacion).then(
                 function(response){
-                    if ( response.status == 200 ) {
-                        alert("Registro completado");
-                        $scope.selCama = null;
-                        $scope.selHabitacion = null;
-                        $scope.habitacion = {};
-                    } else {
-                        alert( "No se registro" );
-                        return;
-                    }
+                    $scope.selCama = null;
+                    $scope.selHabitacion = null;
+                    $scope.habitacion = {};
+                }, function (errorResponse) {
+                    
                 });
         }
 

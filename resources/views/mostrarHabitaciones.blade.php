@@ -24,13 +24,15 @@
                 </tr>
             </thead>
             <tbody>
-                <tr ng-repeat="habitacion in habitaciones">
+                <tr class="text-center" ng-repeat="habitacion in habitaciones">
                 <th scope="row">@{{ habitacion.id }}</th>
                     <td>@{{ habitacion.nombre_habitacion }}</td>
                     <td>@{{ habitacion.tipo_cama }}</td>
                     <td>@{{ habitacion.cantidad_camas }}</td>
                     <td>@{{ habitacion.cantidad_cuartos }}</td>
-                    <td>@{{ habitacion.precio_habitacion }}</td>
+                    <td>$ @{{ habitacion.precio_habitacion }}</td>
+                    <td><button class="btn btn-danger" ng-click="mandarMantenimiento($index)">Mantenimiento</button></td>
+                    <td><button class="btn btn btn-warning" ng-click="editarHabitacion($index)">Editar</button> </td>
                 </tr>
             </tbody>
         </table>
@@ -40,6 +42,15 @@
         var app=angular.module('app',[])
         app.controller('ctrl', function($scope,$http){
            $scope.habitaciones = {!! json_encode ($datos->toArray()) !!};
+
+
+           $scope.mandarMantenimiento = function( index ) {
+               console.log( index );
+           };
+
+           $scope.editarHabitacion = function( index ) {
+               console.log( index );
+           }
         });
     </script>
 </html>
