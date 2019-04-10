@@ -15,9 +15,8 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/addHabitacion', function () {
-    return view('agregarHabitacion');
-});
+Route::get('/addHabitacion', 'HabitacionController@indexPrincipal');
+
 Route::get ('/editar', function (){
    return view('editar'); 
 });
@@ -26,33 +25,17 @@ Route::get ('/mantenimiento', function (){
    return view('mantenimiento'); 
 });
 
-Route::resource('HabitacionMantenimiento', 'HabitacionesMantenimientoController');
-
-
-
 
 Route::get('habitacion/{id}/edit', [
     'uses' => 'HabitacionController@edit',
     'as' => 'habitacion.edit'
 ]);
 
-Route::get('habitacion/{id}/editMantenimiento', [
-    'uses' => 'HabitacionController@editMantenimiento',
-    'as' => 'habitacion.editMantenimiento'
-]);
-
-
 
 Route::post('/update/{id}',[
     'uses' => 'HabitacionController@update',
     'as' => 'habitacion.update'
 ]);
-
-Route::post('/habitacionMatenimiento',[
-    'uses' => 'HabitacionesMantenimientoController@store',
-    'as' => 'HabitacionMantenimiento.store'
-]);
-
 
 
 Route::get('/mostrar', 'HabitacionController@index');

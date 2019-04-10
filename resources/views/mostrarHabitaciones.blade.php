@@ -28,24 +28,45 @@
                 @foreach($datos as $habitacion)
                 <tr>
                     <th>{{ $habitacion->id }}</th>
-                    <td>{{$habitacion->tipo_habitacion}}</td>                    
-                    <td>{{$habitacion->tipo_cama}}</td>                    
-                    <td>{{$habitacion->cantidad_camas}}</td>                    
-                    <td>{{$habitacion->cantidad_cuartos}}</td>                    
-                    <td class="text-success">$ {{$habitacion->precio_habitacion}}</td>                    
+                    <td>{{ $habitacion->tipo_habitacion}}</td>                    
+                    <td>{{ $habitacion->tipo_cama }}</td>                    
+                    <td>{{ $habitacion->cantidad_camas }}</td>                    
+                    <td>{{ $habitacion->cantidad_cuartos }}</td>                    
+                    <td class="text-success">$ {{ $habitacion->precio_habitacion }}</td>                    
                     <td><a href="{{ route('habitacion.edit', $habitacion -> id) }}"><button class="btn btn-warning" id="btnEditarHabitacion">Editar</button> </a></td>
-                    <td><a href="{{ route('habitacion.editMantenimiento', $habitacion -> id) }}"><button class="btn btn-danger" id="btnManetnimiento">Mantenimiento</button></a></td>
+                    <td><button class="btn btn-danger" id="btnManetnimiento" ng-click="mandarMantenimiento(  {{ $habitacion }} )">Mantenimiento</button></a></td>
                 </tr>
                 @endforeach
             </tbody>
         </table>
           <a href="{{url('/addHabitacion')}}"><button id="btnVolver" class="btn btn-info">Volver</button></a>
+
+        <hr>
+
+        <div ng-show="mostrarBaja">
+            <form name="formEditHabitaciones" enctype="multipart/form-data">    
+                <div class="col">
+                    <label>Cantidad de cuartos:</label>
+                    <input type="number" ng-model="habitacion.cantidad_cuartos" min="1" maxlength="1" oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength)" required onkeydown="return event.keyCode !== 69 && event.keyCode !== 48 ">
+                </div>
+            </form>
+        </div>
     </div>
+
+    
 </body>
     <script>
         var app=angular.module('app',[])
         app.controller('ctrl', function($scope,$http){
            $scope.habitaciones = {!! json_encode ($datos->toArray()) !!};
+
+           $scope.mostrarBaja = false; //apartado para dar de baja
+
+
+           $scope.mandarMantenimiento = function( objetoRecibido ) {
+               $scope.mostrarBaja = true;
+               console.log(objetoRecibido);
+           }
         });
     </script>
 </html>

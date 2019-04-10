@@ -35,12 +35,12 @@
                 
                 <div class="col">
                     <label>Cantidad de cuartos:</label>
-                    <input type="number" ng-model="habitacion.numCuartos" min="1" maxlength="1" oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength)" required onkeydown="return event.keyCode !== 69 && event.keyCode !== 48 ">
+                    <input type="number" ng-model="habitacion.numCuartos" min="1" max="100" maxlength="2" oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength)" required onkeydown="return event.keyCode !== 69 && event.keyCode !== 48 ">
                 </div>
                 
                 <div class="col">
                     <label>Cantidad de camas:</label>
-                    <input type="number" ng-model="habitacion.numCamas" min="1" maxlength="1" oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength)" required onkeydown="return event.keyCode !== 69 && event.keyCode !== 48 ">
+                    <input type="number" ng-model="habitacion.numCamas" min="1" max="5" maxlength="1" oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength)" required onkeydown="return event.keyCode !== 69 && event.keyCode !== 48 ">
                 </div>
                 
                 
@@ -61,6 +61,11 @@
 <script>
   var app=angular.module('app',[])
     app.controller('ctrl', function($scope,$http){
+        $scope.habitacionesBD = {!! json_encode ($datos) !!};
+        $scope.habitacion = {}; //Objeto donde se almacena la info de la habitación 
+
+        console.log($scope.habitacionesBD);
+
         $scope.tipoHabitaciones=[
             {id:1, value:'Sencilla'},
             {id:2, value:'Junior'},
@@ -74,20 +79,29 @@
             ];  //Arreglo con las opciones de tipo de cama
         $scope.selCama = null; 
         $scope.selHabitacion = null;
-        $scope.habitacion = {}; //Objeto donde se almacena la info de la habitación 
         
         $scope.guardar = function() {
             $scope.habitacion.habitacion = $scope.selHabitacion.value;
             $scope.habitacion.cama = $scope.selCama.value;
-            $http.post('/save', $scope.habitacion).then(
+            $scope.ejecutarValidaciones();
+            /*$http.post('/save', $scope.habitacion).then(
                 function(response){
                     $scope.selCama = null;
                     $scope.selHabitacion = null;
                     $scope.habitacion = {};
+                    location.reload();
                 }, function (errorResponse) {
                     
-                });
+                });*/
+
         }
+
+        $scope.ejecutarValidaciones = function() {
+            console.log( $scope.habitacion );
+            for (let i = 0; i < $scope.habitacionesBD.length; i++ ){
+                console.log($scope.habitacionesBD[i].nombre_habitacion);
+            } 
+        };
 
     });
     

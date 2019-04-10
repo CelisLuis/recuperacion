@@ -19,6 +19,13 @@ class HabitacionController extends Controller
         return view('mostrarHabitaciones', compact('datos'));
     }
 
+    public function indexPrincipal()
+    {
+        $habitaciones = new habitacion();
+        $datos = $habitaciones::all();
+        return view('agregarHabitacion', compact('datos'));
+    }
+
     /**
      * Show the form for creating a new resource.
      *

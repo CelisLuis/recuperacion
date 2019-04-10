@@ -15,8 +15,8 @@
             }
         </style>
     </head>
-    <body>
-        <div ng-controller="ctrl" class="container top">
+    <body ng-controller="ctrl">
+        <div class="container top">
             <form name="formEditHabitaciones" enctype="multipart/form-data">    
             
                 <div class="col">
