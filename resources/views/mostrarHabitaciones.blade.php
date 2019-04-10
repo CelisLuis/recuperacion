@@ -21,6 +21,7 @@
                     <th scope="col">Cantidad Camas</th>
                     <th scope="col">Cantidad Cuartos</th>
                     <th scope="col">Precio</th>
+                    <th scope="col">Acciones</th>
                 </tr>
             </thead>
             <tbody>
@@ -32,11 +33,12 @@
                     <td>{{$habitacion->cantidad_camas}}</td>                    
                     <td>{{$habitacion->cantidad_cuartos}}</td>                    
                     <td>{{$habitacion->precio_habitacion}}</td>                    
-                    <td><a href="{{ route('habitacion.edit', $habitacion -> id) }}"><button class="btn btn-warning" id="btnEditarUsuario">Editar</button></a></td>
+                    <td><a href="{{ route('habitacion.edit', $habitacion -> id) }}"><button class="btn btn-warning" id="btnEditarHabitacion">Editar</button> </a><a href="{{url('/mantenimiento')}}"><button class="btn btn-danger" id="btnManetnimiento">Mantenimiento</button></a></td>
                 </tr>
                 @endforeach
             </tbody>
         </table>
+          <a href="{{url('/addHabitacion')}}"><button id="btnEditarUsuario">Volver</button></a>
     </div>
 </body>
     <script>
