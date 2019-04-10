@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\HabitacionMantenimiento;
 use Illuminate\Http\Request;
 
-class HabitacionesMantenimiento extends Controller
+class HabitacionesMantenimientoController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -35,7 +35,7 @@ class HabitacionesMantenimiento extends Controller
      */
     public function store(Request $request)
     {
-        return view('mantenimiento');
+        //
     }
 
     /**

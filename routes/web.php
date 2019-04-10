@@ -23,7 +23,7 @@ Route::get ('/editar', function (){
 });
 
 Route::resource('Habitacion','HabitacionController');
-Route::resource('HabitacionMantenimiento', 'UserController');
+Route::resource('HabitacionMantenimiento', 'HabitacionesMantenimientoController');
 
 
 
