@@ -49,8 +49,8 @@
                     <input type="number" ng-model="habitacion.precioHabitacion" min="100" maxlength="5" oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength)" required onkeydown="return event.keyCode !== 69">
                 </div>
                 <div class="col">
-                <br><button type="button" ng-click="guardar()" ng-disabled="!formHabitaciones.$valid" class="btn btn-outline-success">GUARDAR</button>
-                 <a href="{{url('/mostrar')}}"><button type="button" class="btn btn-outline-success" id="btnMostrar">MOSTRAR DATOS</button></a>
+                <br><button type="button" ng-click="guardar()" ng-disabled="!formHabitaciones.$valid" class="btn btn-success">GUARDAR</button>
+                 <a href="{{url('/mostrar')}}"><button type="button" class="btn btn-info" id="btnMostrar">MOSTRAR DATOS</button></a>
                 </div>
             </form>
         </div>

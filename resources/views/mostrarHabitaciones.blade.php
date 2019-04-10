@@ -38,7 +38,7 @@
                 @endforeach
             </tbody>
         </table>
-          <a href="{{url('/addHabitacion')}}"><button id="btnEditarUsuario">Volver</button></a>
+          <a href="{{url('/addHabitacion')}}"><button id="btnVolver" class="btn btn-info">Volver</button></a>
     </div>
 </body>
     <script>
