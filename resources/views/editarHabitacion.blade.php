@@ -47,24 +47,11 @@
 
 <script>
   var app=angular.module('app',[])
-    app.controller('ctrl', function($scope,$http,$filter){
-        $scope.tipoHabitaciones=[
-            {id:1, value:'Sencilla'},
-            {id:2, value:'Junior'},
-            {id:3, value:'Presidencial'}
-        ]; //Arreglo con las opciones de habitaciones
-        $scope.tipoCamas=[
-                {id:1, value:'Individual'},
-                {id:2, value:'Matrimonial'},
-                {id:3, value:'Queen size'},
-                {id:4, value:'King size'}
-            ];  //Arreglo con las opciones de tipo de cama
-        $scope.selCama = null; 
-        $scope.selHabitacion = null;
+    app.controller('ctrl', function($scope,$http){
         //$scope.habitacion = {}; //Objeto donde se almacena la info de la habitación 
-        $scope.habitacion={!! json_encode($habitacionEdit) !!};//Carga datos en los inputs    
+        $scope.habitacion={!! json_encode($habitacionEdit->toArray()) !!};//Carga datos en los inputs    
         console.log($scope.habitacion);    
-      
+        
         $scope.editar=function(){
             $http.post('/update/'+ {!! json_encode($habitacionEdit->id) !!}, $scope.habitacion).then(
             function(response){

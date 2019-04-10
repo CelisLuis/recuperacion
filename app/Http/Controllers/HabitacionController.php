@@ -47,9 +47,9 @@ class HabitacionController extends Controller
         $datos = new Habitacion();
         $datos->nombre_habitacion = $request->habitacion;
         $datos->tipo_cama = $request->cama;
-        $datos->cantidad_camas = $request->numCamas;
-        $datos->cantidad_cuartos = $request->numCuartos;
-        $datos->precio_habitacion = $request->precioHabitacion;
+        $datos->cantidad_camas = $request->input('numCamas');
+        $datos->cantidad_cuartos = $request->input('numCuartos');
+        $datos->precio_habitacion = $request->input('precioHabitacion');
         $datos->save();
         return $datos->id;
     }
@@ -88,9 +88,9 @@ class HabitacionController extends Controller
     public function update(Request $request, $id)
     {
         $datos = Habitacion::find($id);
-        $datos->cantidad_camas = $request->input('numCamas');
-        $datos->cantidad_cuartos = $request->input('numCuartos');
-        $datos->precio_habitacion = $request->input('precioHabitacion');
+        $datos->cantidad_camas = $request->input('cantidad_cuartos');
+        $datos->cantidad_cuartos = $request->input('cantidad_camas');
+        $datos->precio_habitacion = $request->input('precio_habitacion');
         $datos->save();
     }
 

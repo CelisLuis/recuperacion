@@ -37,18 +37,18 @@
 
                 <div class="col">
                     <label>Cantidad de cuartos:</label>
-                    <input type="number" ng-model="habitacion.numCuartos" min="1" max="100" maxlength="2" oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength)" required onkeydown="return event.keyCode !== 69 && event.keyCode !== 48 ">
+                    <input type="number" name="cuartos" ng-model="habitacion.numCuartos" min="1" max="100" maxlength="2" oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength)" required onkeydown="return event.keyCode !== 69 && event.keyCode !== 48 ">
                 </div>
                 
                 <div class="col">
                     <label>Cantidad de camas:</label>
-                    <input type="number" ng-model="habitacion.numCamas" min="1" max="5" maxlength="1" oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength)" required onkeydown="return event.keyCode !== 69 && event.keyCode !== 48 ">
+                    <input type="number" name="camas" ng-model="habitacion.numCamas" min="1" max="5" maxlength="1" oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength)" required onkeydown="return event.keyCode !== 69 && event.keyCode !== 48 ">
                 </div>
                 
                 
                 <div class="col">
                     <label>Precio por habitación: $</label>
-                    <input type="number" ng-model="habitacion.precioHabitacion" min="100" maxlength="5" oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength)" required onkeydown="return event.keyCode !== 69">
+                    <input type="number" name="precios" ng-model="habitacion.precioHabitacion" min="100" maxlength="5" oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength)" required onkeydown="return event.keyCode !== 69">
                 </div>
                 <div class="col">
                 <br><button type="button" ng-click="guardar()" ng-disabled="!formHabitaciones.$valid" class="btn btn-success">GUARDAR</button>
@@ -190,26 +190,6 @@
         var ageDate = new Date(ageDifMs);
             return Math.abs(ageDate.getUTCFullYear() - 1970);
     }//Calcula la edad a partir de la fecha de nac
-
-
-function inputLetras(e){ 
-       letrasAdmit = " áéíóúabcdefghijklmnñopqrstuvwxyz";//Teclas que se pondrán presionar
-       exepciones = "8-32-39-46"; //(BackSpace , flecha izquierda, flecha derecha, Supr).
-       tecla_especial = false;
-       key = e.keyCode || e.which;
-       teclaPress = String.fromCharCode(key).toLowerCase();
-       for(var i in exepciones){
-            if(key == exepciones[i]){
-                tecla_especial = true;
-                break;
-            }
-        }
-        if(letrasAdmit.indexOf(teclaPress)==-1 && !tecla_especial){
-            console.log("Tecla no admitida");
-            return false;
-        }
-    }
-
 */
 </script>
 

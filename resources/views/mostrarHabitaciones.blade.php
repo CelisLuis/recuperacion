@@ -28,13 +28,13 @@
                 @foreach($datos as $habitacion)
                 <tr>
                     <th>{{ $habitacion->id }}</th>
-                    <td>{{ $habitacion->tipo_habitacion}}</td>                    
+                    <td>{{ $habitacion->nombre_habitacion}}</td>                    
                     <td>{{ $habitacion->tipo_cama }}</td>                    
                     <td>{{ $habitacion->cantidad_camas }}</td>                    
                     <td>{{ $habitacion->cantidad_cuartos }}</td>                    
                     <td class="text-success">$ {{ $habitacion->precio_habitacion }}</td>                    
                     <td><a href="{{ route('habitacion.edit', $habitacion -> id) }}"><button class="btn btn-warning" id="btnEditarHabitacion">Editar</button> </a></td>
-                    <td><button class="btn btn-danger" id="btnManetnimiento" ng-click="mandarMantenimiento(  {{ $habitacion }} )">Mantenimiento</button></a></td>
+                    <td><a><button class="btn btn-danger" id="btnManetnimiento" ng-click="mandarMantenimiento(  {{ $habitacion }} )">Mantenimiento</button></a></td>
                 </tr>
                 @endforeach
             </tbody>
