@@ -130,8 +130,8 @@
                     $scope.mostrarFormAgregar = false;
                     $scope.mostrarFormActualizar = true;
                 }
-            }
-            /*$http.post('/save', $scope.habitacion).then(
+            }else {
+                $http.post('/save', $scope.habitacion).then(
                 function(response){
                     $scope.selCama = null;
                     $scope.selHabitacion = null;
@@ -139,8 +139,8 @@
                     location.reload();
                 }, function (errorResponse) {
                     
-                });*/
-
+                });
+            }
         }
 
         $scope.ejecutarValidaciones = function() {
