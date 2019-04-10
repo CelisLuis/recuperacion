@@ -21,18 +21,18 @@
             
                 <div class="col">
                     <label>Cantidad de cuartos:</label>
-                    <input type="number" ng-model="habitacion.numCuartos" min="1" maxlength="1" oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength)" required onkeydown="return event.keyCode !== 69 && event.keyCode !== 48 ">
+                    <input type="number" ng-model="habitacion.cantidad_cuartos" min="1" maxlength="1" oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength)" required onkeydown="return event.keyCode !== 69 && event.keyCode !== 48 ">
                 </div>
 
                 <div class="col">
                     <label>Cantidad de camas:</label>
-                    <input type="number" ng-model="habitacion.numCamas" min="1" maxlength="1" oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength)" required onkeydown="return event.keyCode !== 69 && event.keyCode !== 48 ">
+                    <input type="number" ng-model="habitacion.cantidad_camas" min="1" maxlength="1" oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength)" required onkeydown="return event.keyCode !== 69 && event.keyCode !== 48 ">
                 </div>
 
                 
                 <div class="col">
                     <label>Precio por habitación: $</label>
-                    <input type="number" ng-model="habitacion.precioHabitacion" min="100" maxlength="5" oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength)" required onkeydown="return event.keyCode !== 69">
+                    <input type="number" ng-model="habitacion.precio_habitacion" min="100" maxlength="5" oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength)" required onkeydown="return event.keyCode !== 69">
                 </div>
                 
                 <div class="col">
@@ -62,7 +62,8 @@
         $scope.selCama = null; 
         $scope.selHabitacion = null;
         //$scope.habitacion = {}; //Objeto donde se almacena la info de la habitación 
-        $scope.habitacion={!! json_encode($habitacionEdit->toArray()) !!};//Carga datos en los inputs        
+        $scope.habitacion={!! json_encode($habitacionEdit) !!};//Carga datos en los inputs    
+        console.log($scope.habitacion);    
       
         $scope.editar=function(){
             $http.post('/update/'+ {!! json_encode($habitacionEdit->id) !!}, $scope.habitacion).then(

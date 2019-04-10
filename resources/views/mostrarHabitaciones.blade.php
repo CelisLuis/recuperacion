@@ -32,8 +32,8 @@
                     <td>{{$habitacion->cantidad_camas}}</td>                    
                     <td>{{$habitacion->cantidad_cuartos}}</td>                    
                     <td>{{$habitacion->precio_habitacion}}</td>                    
-                    <td><a href="{{ route('habitacion.edit', $habitacion -> id) }}"><button class="btn btn-primary" id="btnEditarUsuario">Editar</button></a></td>
-            </tr>
+                    <td><a href="{{ route('habitacion.edit', $habitacion -> id) }}"><button class="btn btn-warning" id="btnEditarUsuario">Editar</button></a></td>
+                </tr>
                 @endforeach
             </tbody>
         </table>
@@ -43,15 +43,6 @@
         var app=angular.module('app',[])
         app.controller('ctrl', function($scope,$http){
            $scope.habitaciones = {!! json_encode ($datos->toArray()) !!};
-
-
-           $scope.mandarMantenimiento = function( index ) {
-               console.log( index );
-           };
-
-           $scope.editarHabitacion = function( index ) {
-               console.log( index );
-           }
         });
     </script>
 </html>

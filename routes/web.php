@@ -23,6 +23,7 @@ Route::get ('/editar', function (){
 });
 
 Route::resource('Habitacion','HabitacionController');
+Route::resource('HabitacionMantenimiento', 'UserController');
 
 
 
@@ -34,6 +35,11 @@ Route::get('habitacion/{id}/edit', [
 Route::post('/update/{id}',[
     'uses' => 'HabitacionController@update',
     'as' => 'habitacion.update'
+]);
+
+Route::post('/habitacionMatenimiento',[
+    'uses' => 'HabitacionesMantenimientoController@store',
+    'as' => 'HabitacionMantenimiento.store'
 ]);
 
 
