@@ -70,6 +70,12 @@ class HabitacionController extends Controller
         return view('editarHabitacion',compact('habitacionEdit'));
     }
 
+    public function editMantenimiento($id)
+    {
+        $habitacionMantenimiento = Habitacion::find($id);
+        return view('mantenimiento', compact('habitacionMantenimiento'));
+    }
+
     /**
      * Update the specified resource in storage.
      *

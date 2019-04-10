@@ -32,9 +32,9 @@
                     <td>{{$habitacion->tipo_cama}}</td>                    
                     <td>{{$habitacion->cantidad_camas}}</td>                    
                     <td>{{$habitacion->cantidad_cuartos}}</td>                    
-                    <td>{{$habitacion->precio_habitacion}}</td>                    
+                    <td class="text-success">$ {{$habitacion->precio_habitacion}}</td>                    
                     <td><a href="{{ route('habitacion.edit', $habitacion -> id) }}"><button class="btn btn-warning" id="btnEditarHabitacion">Editar</button> </a></td>
-                    <td><a href="{{url('/mantenimiento')}}"><button class="btn btn-danger" id="btnManetnimiento">Mantenimiento</button></a></td>
+                    <td><a href="{{ route('habitacion.editMantenimiento', $habitacion -> id) }}"><button class="btn btn-danger" id="btnManetnimiento">Mantenimiento</button></a></td>
                 </tr>
                 @endforeach
             </tbody>

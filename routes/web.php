@@ -36,6 +36,13 @@ Route::get('habitacion/{id}/edit', [
     'as' => 'habitacion.edit'
 ]);
 
+Route::get('habitacion/{id}/editMantenimiento', [
+    'uses' => 'HabitacionController@editMantenimiento',
+    'as' => 'habitacion.editMantenimiento'
+]);
+
+
+
 Route::post('/update/{id}',[
     'uses' => 'HabitacionController@update',
     'as' => 'habitacion.update'
