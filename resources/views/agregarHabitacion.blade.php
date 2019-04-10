@@ -17,7 +17,7 @@
     </head>
     <body>
         <div ng-controller="ctrl" class="container top">
-            <form name="formHabitaciones" enctype="multipart/form-data">
+            <form name="formHabitaciones" ng-show="mostrarFormAgregar" enctype="multipart/form-data">
                 
                 <div class="col">
                     <label>Nombre de la habitación:</label>
@@ -32,7 +32,7 @@
                         <option value="">Selecciona la habitación que desees</option>
                     </select>
                 </div>
-                
+
                 <div class="col">
                     <label>Cantidad de cuartos:</label>
                     <input type="number" ng-model="habitacion.numCuartos" min="1" max="100" maxlength="2" oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength)" required onkeydown="return event.keyCode !== 69 && event.keyCode !== 48 ">
@@ -79,11 +79,21 @@
             ];  //Arreglo con las opciones de tipo de cama
         $scope.selCama = null; 
         $scope.selHabitacion = null;
+
+        // apartado mostrar cuartos 
+        $scope.mostrarCantidadCuartos = false;
+        $scope.mostrarFormAgregar = true;
+        $scope.cantidadCuartosBD = null;
         
         $scope.guardar = function() {
             $scope.habitacion.habitacion = $scope.selHabitacion.value;
             $scope.habitacion.cama = $scope.selCama.value;
-            $scope.ejecutarValidaciones();
+            if( $scope.ejecutarValidaciones() ) {
+                let resultado = confirm( 'Ya hay registro identico, ¿Desea actualizar? ');
+                if ( resultado ) { 
+                    $scope.mostrarFormAgregar = false;
+                }
+            }
             /*$http.post('/save', $scope.habitacion).then(
                 function(response){
                     $scope.selCama = null;
@@ -99,7 +109,14 @@
         $scope.ejecutarValidaciones = function() {
             console.log( $scope.habitacion );
             for (let i = 0; i < $scope.habitacionesBD.length; i++ ){
-                console.log($scope.habitacionesBD[i].nombre_habitacion);
+                if ($scope.selHabitacion.value == $scope.habitacionesBD[i].nombre_habitacion) {
+                    if( $scope.selCama.value == $scope.habitacionesBD[i].tipo_cama) {
+                        $scope.mostrarCantidadCuartos = true;
+                        $scope.cantidadCuartosBD = $scope.habitacionesBD[i].cantidad_cuartos;
+                        return true;
+                        break;
+                    }
+                }
             } 
         };
 
