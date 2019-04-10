@@ -38,6 +38,9 @@ Route::post('/update/{id}',[
 ]);
 
 
+Route::post('/updateCuartos/{id}', 'HabitacionController@updateCuartos' );
+
+
 Route::get('/mostrar', 'HabitacionController@index');
 
 Route::post('/save', 'HabitacionController@store');

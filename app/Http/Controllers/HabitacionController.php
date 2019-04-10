@@ -74,14 +74,9 @@ class HabitacionController extends Controller
     public function edit($id)
     {
         $habitacionEdit = Habitacion::find($id);
-        return view('editarHabitacion',compact('habitacionEdit'));
+        return view('editarHabitacion', compact('habitacionEdit'));
     }
 
-    public function editMantenimiento($id)
-    {
-        $habitacionMantenimiento = Habitacion::find($id);
-        return view('mantenimiento', compact('habitacionMantenimiento'));
-    }
 
     /**
      * Update the specified resource in storage.
@@ -96,6 +91,13 @@ class HabitacionController extends Controller
         $datos->cantidad_camas = $request->input('numCamas');
         $datos->cantidad_cuartos = $request->input('numCuartos');
         $datos->precio_habitacion = $request->input('precioHabitacion');
+        $datos->save();
+    }
+
+    public function updateCuartos(Request $request, $id)
+    {
+        $datos = Habitacion::find($id);
+        $datos->cantidad_cuartos = $request->cantidad_cuartos;
         $datos->save();
     }
 
