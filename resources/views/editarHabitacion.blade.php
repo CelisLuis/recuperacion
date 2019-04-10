@@ -21,12 +21,12 @@
             
                 <div class="col">
                     <label>Cantidad de cuartos:</label>
-                    <input type="number" ng-model="habitacion.cantidad_cuartos" min="1" maxlength="1" oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength)" required onkeydown="return event.keyCode !== 69 && event.keyCode !== 48 ">
+                    <input type="number" ng-model="habitacion.cantidad_cuartos" min="1" max="20" maxlength="1" oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength)" required onkeydown="return event.keyCode !== 69 && event.keyCode !== 48 ">
                 </div>
 
                 <div class="col">
                     <label>Cantidad de camas:</label>
-                    <input type="number" ng-model="habitacion.cantidad_camas" min="1" maxlength="1" oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength)" required onkeydown="return event.keyCode !== 69 && event.keyCode !== 48 ">
+                    <input type="number" ng-model="habitacion.cantidad_camas" min="1" max="5" maxlength="1" oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength)" required onkeydown="return event.keyCode !== 69 && event.keyCode !== 48 ">
                 </div>
 
                 

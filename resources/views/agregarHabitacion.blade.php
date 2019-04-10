@@ -37,7 +37,7 @@
 
                 <div class="col">
                     <label>Cantidad de cuartos:</label>
-                    <input type="number" name="cuartos" ng-model="habitacion.numCuartos" min="1" max="100" maxlength="2" oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength)" required onkeydown="return event.keyCode !== 69 && event.keyCode !== 48 ">
+                    <input type="number" name="cuartos" ng-model="habitacion.numCuartos" min="1" max="20" maxlength="2" oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength)" required onkeydown="return event.keyCode !== 69 && event.keyCode !== 48 ">
                 </div>
                 
                 <div class="col">
@@ -74,7 +74,7 @@
                 </div>
                 <div class="col">
                         <label>Agregar más cuartos: </label>
-                        <input type="number" ng-model="habitacion.numCuartos" min="1" max="100" maxlength="2" oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength)" required onkeydown="return event.keyCode !== 69 && event.keyCode !== 48 ">                    </div>
+                        <input type="number" ng-model="habitacion.numCuartos" min="1" max="20" maxlength="2" oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength)" required onkeydown="return event.keyCode !== 69 && event.keyCode !== 48 ">                    </div>
                 <div class="col">
                     <label>Cantidad de Camas</label>
                     <input type="text" ng-model="habitacionActualizar.cantidad_camas" disabled>

@@ -88,8 +88,8 @@ class HabitacionController extends Controller
     public function update(Request $request, $id)
     {
         $datos = Habitacion::find($id);
-        $datos->cantidad_camas = $request->input('cantidad_cuartos');
-        $datos->cantidad_cuartos = $request->input('cantidad_camas');
+        $datos->cantidad_camas = $request->input('cantidad_camas');
+        $datos->cantidad_cuartos = $request->input('cantidad_cuartos');
         $datos->precio_habitacion = $request->input('precio_habitacion');
         $datos->save();
     }

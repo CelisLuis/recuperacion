@@ -34,23 +34,12 @@
                     <td>{{ $habitacion->cantidad_cuartos }}</td>                    
                     <td class="text-success">$ {{ $habitacion->precio_habitacion }}</td>                    
                     <td><a href="{{ route('habitacion.edit', $habitacion -> id) }}"><button class="btn btn-warning" id="btnEditarHabitacion">Editar</button> </a></td>
-                    <td><a><button class="btn btn-danger" id="btnManetnimiento" ng-click="mandarMantenimiento(  {{ $habitacion }} )">Mantenimiento</button></a></td>
+                    <td><a><button class="btn btn-danger" id="btnManetnimiento" ng-click="mandarMantenimiento(  {{ $habitacion }} )">Eliminar</button></a></td>
                 </tr>
                 @endforeach
             </tbody>
         </table>
           <a href="{{url('/addHabitacion')}}"><button id="btnVolver" class="btn btn-info">Volver</button></a>
-
-        <hr>
-
-        <div ng-show="mostrarBaja">
-            <form name="formEditHabitaciones" enctype="multipart/form-data">    
-                <div class="col">
-                    <label>Cantidad de cuartos:</label>
-                    <input type="number" ng-model="habitacion.cantidad_cuartos" min="1" maxlength="1" oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength)" required onkeydown="return event.keyCode !== 69 && event.keyCode !== 48 ">
-                </div>
-            </form>
-        </div>
     </div>
 
     
@@ -59,13 +48,32 @@
         var app=angular.module('app',[])
         app.controller('ctrl', function($scope,$http){
            $scope.habitaciones = {!! json_encode ($datos->toArray()) !!};
+           $scope.minimaCuartos = 2;
 
            $scope.mostrarBaja = false; //apartado para dar de baja
 
 
            $scope.mandarMantenimiento = function( objetoRecibido ) {
-               $scope.mostrarBaja = true;
-               console.log(objetoRecibido);
+               let cantidadBajar = prompt ( '¿Cuantos cuartos desea dar de baja?' );
+               prompt( 'Describe el motivo: ');
+               let confirmacion = confirm( '¿Esta seguro de quitar ' + cantidadBajar + ' cuartos?');
+               console.log( cantidadBajar );
+               if( confirmacion ) {
+                   objetoRecibido.cantidad_cuartos = objetoRecibido.cantidad_cuartos - cantidadBajar;
+                   if ( objetoRecibido.cantidad_cuartos < $scope.minimaCuartos ){
+                       alert ( 'No se puede quitar todos los cuartos' );
+                       return;
+                   }else {
+                        $http.post('/updateCuartos/' + objetoRecibido.id, objetoRecibido).then(
+                        function(response){
+                            alert("¡Registro modificado con éxito!");
+                            location.reload();
+                        },function(errorResponse){
+                            alert("Ha ocurrido un error al modificar");
+                        });
+                   }
+                   
+               }
            }
         });
     </script>
