@@ -22,8 +22,12 @@ Route::get ('/editar', function (){
    return view('editar'); 
 });
 
-Route::resource('Habitacion','HabitacionController');
+Route::get ('/mantenimiento', function (){
+   return view('mantenimiento'); 
+});
+
 Route::resource('HabitacionMantenimiento', 'HabitacionesMantenimientoController');
+
 
 
 
