@@ -16,7 +16,9 @@ class ReservasController extends Controller
      */
     public function index()
     {
-        //
+        $reservas = new reserva();
+        $datos = $reservas::all();
+        return view('mostrarReservas', compact('datos'));
     }
 
     public function indexPrincipal()
@@ -79,9 +81,10 @@ class ReservasController extends Controller
      * @param  \App\Reserva  $reserva
      * @return \Illuminate\Http\Response
      */
-    public function edit(Reserva $reserva)
+    public function edit($id)
     {
-        //
+        $reservaEdit = Reserva::find($id);
+        return view('editarReserva', compact('reservaEdit'));
     }
 
     /**
@@ -91,9 +94,13 @@ class ReservasController extends Controller
      * @param  \App\Reserva  $reserva
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Reserva $reserva)
+    public function update(Request $request, $id)
     {
-        //
+        $datos = Reserva::find($id);
+        $datos->id_habitacion = $request->input('id_habitacion');
+        $datos->inicio_reserva  = $request->input('inicio_reserva ');
+        $datos->fin_reserva  = $request->input('fin_reserva ');
+        $datos->save();
     }
 
     /**

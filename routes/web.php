@@ -18,7 +18,6 @@ Route::get('/', function () {
 Route::get('/addHabitacion', 'HabitacionController@indexPrincipal');
 Route::get('/addReservas', 'ReservasController@indexPrincipal');
 Route::get('/mostrarHabitaciones/{id}', 'ReservasController@mostrarHabitaciones');
-
 Route::post('/reservar', 'ReservasController@store');
 
 Route::get ('/editar', function (){
@@ -34,6 +33,7 @@ Route::get ('/mantenimiento', function (){
 });
 
 
+
 Route::get('habitacion/{id}/edit', [
     'uses' => 'HabitacionController@edit',
     'as' => 'habitacion.edit'
@@ -45,10 +45,21 @@ Route::post('/update/{id}',[
     'as' => 'habitacion.update'
 ]);
 
+Route::get('reserva/{id}/edit', [
+    'uses' => 'ReservasController@edit',
+    'as' => 'reserva.edit'
+]);
+
+
+Route::post('/update/{id}',[
+    'uses' => 'ReservasController@update',
+    'as' => 'reserva.update'
+]);
+
 
 Route::post('/updateCuartos/{id}', 'HabitacionController@updateCuartos' );
 
 
 Route::get('/mostrar', 'HabitacionController@index');
-
+Route::get('/mostrarReservas', 'ReservasController@index');
 Route::post('/save', 'HabitacionController@store');

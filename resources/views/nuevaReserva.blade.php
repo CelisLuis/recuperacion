@@ -59,7 +59,7 @@
                 <div class="col">
                 <br>
                 <button type="button" ng-click="guardar()" ng-disabled="!formReservaciones.$valid" class="btn btn-success">GUARDAR</button>
-                <a href="{{url('/mostrarReservaciones')}}"><button type="button" class="btn btn-info" id="btnMostrar">Reservaciones</button></a>
+                <a href="{{url('/mostrarReservas')}}"><button type="button" class="btn btn-info" id="btnMostrar">RESERVACIONES</button></a>
                 </div>
             </form>
         </div>
