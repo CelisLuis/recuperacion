@@ -97,9 +97,11 @@ class ReservasController extends Controller
     public function update(Request $request, $id)
     {
         $datos = Reserva::find($id);
-        $datos->id_habitacion = $request->input('id_habitacion');
-        $datos->inicio_reserva  = $request->input('inicio_reserva ');
-        $datos->fin_reserva  = $request->input('fin_reserva ');
+        $datos->id_habitacion = $request->id_habitacion;
+        $datos->inicio_reserva  = $request->inicio_reserva;
+        $datos->fin_reserva  = $request->fin_reserva;
+        $datos->costo = $request->costo;
+        
         $datos->save();
     }
 

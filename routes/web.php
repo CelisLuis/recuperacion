@@ -23,6 +23,7 @@ Route::get('/mostrarHabitacion/{id}', 'ReservasController@mostrarHabitacion');
 Route::post('/reservar', 'ReservasController@store');
 Route::post('/borrarReserva/{id}', 'ReservasController@destroy');
 
+Route::post('/updateReservas/{id}', 'ReservasController@update' );
 
 
 Route::get ('/editar', function (){
