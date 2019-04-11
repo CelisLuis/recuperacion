@@ -17,28 +17,29 @@
     </head>
     <body ng-controller="ctrl" class="container">
         <div class="container top">
-            <form name="formEditHabitaciones" enctype="multipart/form-data">    
+            <form name="formEditReservas" enctype="multipart/form-data">    
             <h1>Editar habitación</h1>
                 
                 <div class="col">
-                    <label>Cantidad de cuartos:</label>
-                    <input type="number" ng-model="habitacion.cantidad_cuartos" min="1" max="30" maxlength="2" oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength)" required onkeydown="return event.keyCode !== 69 && event.keyCode !== 48 ">
+                    <label>Inicio de la reserva:</label>
+                    <input type="date" ng-model="reserva.inicio_reserva" required>
                 </div>
 
                 <div class="col">
-                    <label>Cantidad de camas:</label>
-                    <input type="number" ng-model="habitacion.cantidad_camas" min="1" max="5" maxlength="1" oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength)" required onkeydown="return event.keyCode !== 69 && event.keyCode !== 48 ">
+                    <label>Fin de la reserva:</label>
+                    <input type="date" ng-model="reserva.fin_reserva" required>
                 </div>
 
-                
                 <div class="col">
-                    <label>Precio por habitación: $</label>
-                    <input type="number" ng-model="habitacion.precio_habitacion" min="100" maxlength="5" oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength)" required onkeydown="return event.keyCode !== 69">
+                    <label>Nombre de la habitación:</label>
+                    <select ng-options="habitacion.value for habitacion in tipoHabitaciones track by habitacion.id" name="habitacion" ng-model="selHabitacion" required>
+                        <option value="">Selecciona la habitación que desees</option>
+                    </select>
                 </div>
                 
                 <div class="col">
-                    <br><button type="button" ng-click="editar()" ng-disabled="!formEditHabitaciones.$valid" class="btn btn-outline-success">EDITAR</button>
-                    <a href="{{url('/mostrar')}}"><button type="button" class="btn btn-outline-success" id="btnMostrar">MOSTRAR DATOS</button></a>
+                    <br><button type="button" ng-click="editar()" ng-disabled="!formEditReservas.$valid" class="btn btn-outline-success">EDITAR</button>
+                    <a href="{{url('/mostrarReservas')}}"><button type="button" class="btn btn-outline-success" id="btnMostrar">MOSTRAR DATOS</button></a>
                 </div>
                 
             </form>
@@ -48,10 +49,19 @@
 </html>
 
 <script>
-  var app=angular.module('app',[])
-    app.controller('ctrl', function($scope,$http){
+  var app = angular.module('app', []);
+    app.controller('ctrl', function($scope,$http, $filter){
+        $scope.tipoHabitaciones=[
+            {id:1, value:'Sencilla'},
+            {id:2, value:'Junior'},
+            {id:3, value:'Presidencial'}
+        ]; //Arreglo con las opciones de habitaciones
         $scope.reserva = {!! json_encode($reservaEdit->toArray()) !!}; //Objeto donde se almacena la info de la habitación 
-        $scope.reservaBD={!! json_encode($reservaEdit) !!};//Carga datos en los inputs     
+        $scope.reservaBD={!! json_encode($reservaEdit) !!};//Carga datos en los inputs
+        $scope.reserva.inicio_reserva = new Date ($filter('date')($scope.reserva.inicio_reserva));
+        $scope.reserva.fin_reserva = new Date ($filter('date')($scope.reserva.fin_reserva));
+      
+        
     });
     
     /*

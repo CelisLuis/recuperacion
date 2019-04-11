@@ -20,11 +20,6 @@ Route::get('/addReservas', 'ReservasController@indexPrincipal');
 
 Route::get('/mostrarHabitacion/{id}', 'ReservasController@mostrarHabitacion');
 
-
-
-
-
-
 Route::post('/reservar', 'ReservasController@store');
 Route::post('/borrarReserva/{id}', 'ReservasController@destroy');
 
