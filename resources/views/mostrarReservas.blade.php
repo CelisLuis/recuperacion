@@ -31,7 +31,7 @@
                     <td>{{ $reserva->id_habitacion }}</td>                    
                     <td>{{ $reserva->nombre_cliente }}</td>                    
                     <td>{{ $reserva->apellido_cliente }}</td>                    
-                    <td>{{\Carbon\Carbon::parse($reserva->fecha_nacimiento)->diff(\Carbon\Carbon::now())->format('%y') }}</td>     
+                    <td>{{\Carbon\Carbon::parse($reserva->fecha_nacimiento)->diff(\Carbon\Carbon::now())->format('%y') }}</td>
                     <td>{{ $reserva->inicio_reserva }}</td>                    
                     <td>{{ $reserva->fin_reserva }}</td>                                                           
                     <td class="text-success">$ {{ $reserva->costo }}</td>                    

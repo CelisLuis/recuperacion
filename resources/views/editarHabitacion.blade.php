@@ -6,7 +6,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"
               integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
-        <title>Modificar habitaciones</title>
+        <title>Modificar reservas</title>
         <style type="text/css">
             a:link{text-decoration:none;}
             .danger{color: red;}
@@ -17,9 +17,8 @@
     </head>
     <body ng-controller="ctrl" class="container">
         <div class="container top">
-            <form name="formEditHabitaciones" enctype="multipart/form-data">    
-            <h1>Editar habitación</h1>
-                
+            <form name="formEditReservas" enctype="multipart/form-data">    
+            <h1>Editar reservación</h1>
                 <div class="col">
                     <label>Cantidad de cuartos:</label>
                     <input type="number" ng-model="habitacion.cantidad_cuartos" min="1" max="30" maxlength="2" oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength)" required onkeydown="return event.keyCode !== 69 && event.keyCode !== 48 ">
