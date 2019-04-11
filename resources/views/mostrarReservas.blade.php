@@ -73,24 +73,28 @@
                                 objetoReserva.totalPagar = $scope.diferenciaDias * response.data.precio_habitacion;
                                 console.log($scope.diferenciaDias, objetoReserva.totalPagar);
                                 let cantidadPagar = prompt('Total a pagar: '+ objetoReserva.totalPagar);
-                                if( cantidadPagar == objetoReserva.totalPagar ) {
-                                    alert('Gracias por su visita');
-                                    $scope.updateDelete( response.data, objetoReserva );
-                                    return;
-                                }else {
-                                    objetoReserva.totalPagar = objetoReserva.totalPagar - cantidadPagar;
-                                    cantidadPagar = prompt('Falta pagar: '+ objetoReserva.totalPagar);
-                                    objetoReserva.totalPagar = objetoReserva.totalPagar - cantidadPagar;
-                                    if ( objetoReserva.totalPagar == 0 ){
+                                if(!isNaN(cantidadPagar) && cantidadPagar != null && cantidadPagar != ""){
+                                    if( cantidadPagar == objetoReserva.totalPagar ) {
                                         alert('Gracias por su visita');
                                         $scope.updateDelete( response.data, objetoReserva );
-                                        location.reload();
                                         return;
+                                    }else {
+                                        objetoReserva.totalPagar = objetoReserva.totalPagar - cantidadPagar;
+                                        cantidadPagar = prompt('Falta pagar: '+ objetoReserva.totalPagar);
+                                        objetoReserva.totalPagar = objetoReserva.totalPagar - cantidadPagar;
+                                        if ( objetoReserva.totalPagar == 0 ){
+                                            alert('Gracias por su visita');
+                                            $scope.updateDelete( response.data, objetoReserva );
+                                            location.reload();
+                                            return;
+                                        }
                                     }
-                                }
-                            }else {
-                                alert( 'No se puede cancelar el mismo día' );
-                                return;
+                                    }else{
+                                        alert('Favor de ingresar un número válido');
+  	                                 }
+                                }else {
+                                    alert( 'No se puede cancelar el mismo día' );
+                                    return;
                             }
                         }, function( errorResponse) {
 
