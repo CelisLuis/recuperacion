@@ -109,8 +109,9 @@ class ReservasController extends Controller
      * @param  \App\Reserva  $reserva
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Reserva $reserva)
+    public function destroy($id)
     {
-        //
+        $reservas = Reserva::find($id);
+        $reservas->delete();
     }
 }
