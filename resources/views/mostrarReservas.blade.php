@@ -20,7 +20,6 @@
                     <th scope="col">Edad</th>
                     <th scope="col">Inicio de reserva</th>
                     <th scope="col">Final de reserva</th>
-                    <th scope="col">Estado</th>
                     <th scope="col">Costo</th>
                     <th scope="col">Aciones</th>
                 </tr>
@@ -32,10 +31,9 @@
                     <td>{{ $reserva->id_habitacion }}</td>                    
                     <td>{{ $reserva->nombre_cliente }}</td>                    
                     <td>{{ $reserva->apellido_cliente }}</td>                    
-                    <td>{{ $reserva->apellido_cliente }}</td>                    
+                    <td>{{\Carbon\Carbon::parse($reserva->fecha_nacimiento)->diff(\Carbon\Carbon::now())->format('%y') }}</td>     
                     <td>{{ $reserva->inicio_reserva }}</td>                    
-                    <td>{{ $reserva->fin_reserva }}</td>                                       
-                    <td>{{ $reserva->status }}</td>                    
+                    <td>{{ $reserva->fin_reserva }}</td>                                                           
                     <td class="text-success">$ {{ $reserva->costo }}</td>                    
                     <td><a href="{{ route('reserva.edit', $reserva -> id) }}"><button class="btn btn-warning" id="btnEditarReserva">Editar</button> </a></td>
                     <td><a><button class="btn btn-danger" id="btnCancelar" ng-click="mandarMantenimiento(  {{ $reserva }} )">Cancelar</button></a></td>
