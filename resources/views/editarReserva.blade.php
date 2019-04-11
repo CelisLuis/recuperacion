@@ -6,6 +6,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"
               integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+        <script src="{{asset('js/moment.min.js')}}" type="text/javascript"></script>
         <title>Modificar habitaciones</title>
         <style type="text/css">
             a:link{text-decoration:none;}
@@ -22,17 +23,17 @@
                 
                 <div class="col">
                     <label>Inicio de la reserva:</label>
-                    <input type="date" ng-model="reserva.inicio_reserva" required>
+                    <input type="date" min="{{date('Y-m-d')}}" max="2020-01-01" ng-model="reservaBD.inicio_reserva" ng-disabled="noEditable" required>
                 </div>
 
                 <div class="col">
                     <label>Fin de la reserva:</label>
-                    <input type="date" ng-model="reserva.fin_reserva" required>
+                    <input type="date"  min="{{date('Y-m-d')}}" max="2020-01-01" ng-model="reservaBD.fin_reserva" ng-change="cambioFechaFin()" required>
                 </div>
 
                 <div class="col">
                     <label>Nombre de la habitación:</label>
-                    <select ng-options="habitacion.value for habitacion in tipoHabitaciones track by habitacion.id" name="habitacion" ng-model="selHabitacion" required>
+                    <select ng-options="habitacion.value for habitacion in tipoHabitaciones track by habitacion.id" ng-change="verificarHabitacion()" name="habitacion" ng-model="selHabitacion" required>
                         <option value="">Selecciona la habitación que desees</option>
                     </select>
                 </div>
@@ -56,12 +57,92 @@
             {id:2, value:'Junior'},
             {id:3, value:'Presidencial'}
         ]; //Arreglo con las opciones de habitaciones
-        $scope.reserva = {!! json_encode($reservaEdit->toArray()) !!}; //Objeto donde se almacena la info de la habitación 
         $scope.reservaBD={!! json_encode($reservaEdit) !!};//Carga datos en los inputs
-        $scope.reserva.inicio_reserva = new Date ($filter('date')($scope.reserva.inicio_reserva));
-        $scope.reserva.fin_reserva = new Date ($filter('date')($scope.reserva.fin_reserva));
-      
+        $scope.habitacionBD = {};
+
+        $scope.noEditable = false;
+        $scope.precioHabitacion = 0;
+        $scope.isReservable = false;
+        $scope.alertReserva = false;
+
         
+        $scope.reservaBD.inicio_reserva = new Date ($filter('date')($scope.reservaBD.inicio_reserva));
+        $scope.reservaBD.fin_reserva = new Date ($filter('date')($scope.reservaBD.fin_reserva));
+
+        let fecha1 = moment($scope.reservaBD.inicio_reserva);
+        let fechaActual = moment();
+        $scope.diferenciaDias = fechaActual.diff(fecha1, 'days');
+        console.log( moment($scope.reservaBD.inicio_reserva).isSame(fechaActual, 'year') );
+        console.log( fechaActual );
+
+
+
+        $scope.cambioFechaFin = function() {
+            if ( $scope.alertReserva ) {
+                alert('Fin de reseravción debe ser mayor a la reserva inicial');
+                $scope.alertReserva = false;
+            } else {
+                $scope.calcularPago();
+            }
+        }
+
+        $scope.calcularPago = function(){
+            let fecha2 = moment($scope.reservaBD.inicio_reserva);
+            let fecha3 = moment($scope.reservaBD.fin_reserva);
+            $scope.diferenciaDias2 = fecha3.diff(fecha2, 'days');
+            console.log($scope.diferenciaDias2);
+            if ( $scope.diferenciaDias2 < 0) {
+                $scope.reservaBD.fin_reserva = null;
+                $scope.alertReserva = true;
+            }else if ( $scope.diferenciaDias2 == 0) {
+                $scope.reservaBD.costo = $scope.precioHabitacion;
+            }else {
+                $scope.reservaBD.costo = $scope.diferenciaDias2 * $scope.precioHabitacion;
+            }
+            
+        }
+        
+        $scope.verificarHabitacion = function() {
+            console.log($scope.selHabitacion.id);
+            $http.get('/mostrarHabitacion/' + $scope.selHabitacion.id).then(
+                function( response ){
+                    console.log(response.data);
+                    $scope.reservaBD.id_habitacion = $scope.selHabitacion.id;
+                    $scope.habitacionBD.id = response.data.id;
+                    $scope.habitacionBD.cantidad_cuartos = response.data.cantidad_cuartos;
+                    $scope.precioHabitacion = response.data.precio_habitacion;
+                    $scope.calcularPago();
+                    if( response.data.cantidad_cuartos > 0 ){
+                        $scope.isReservable = true;
+                        console.log( 'entro ');
+                    }
+                }, function( errorResponse) {
+
+                }
+            );
+        }
+
+        $scope.sacarFecha = function( fecha ) {
+            let dia = fecha.getDate();
+            let mes = fecha.getMonth() + 1;
+            let anio = fecha.getFullYear();
+            return anio + '/' + mes + '/' + dia;
+        }
+        
+        $scope.editar = function() {
+            if( $scope.isReservable ) {
+                $scope.reservaBD.inicio_reserva = $scope.sacarFecha( $scope.reservaBD.inicio_reserva );
+                $scope.reservaBD.fin_reserva = $scope.sacarFecha( $scope.reservaBD.fin_reserva );
+                console.log( $scope.reservaBD );
+                $http.post('/updateReservas/' + $scope.reservaBD.id, $scope.reservaBD).then(
+                    function( response ) {
+                        location.reload();
+                    }, function( errorResponse ) {
+
+                    }
+                )
+            }
+        }
     });
     
     /*
