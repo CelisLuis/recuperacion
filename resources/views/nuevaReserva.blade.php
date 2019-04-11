@@ -70,6 +70,7 @@
   var app=angular.module('app',[])
     app.controller('ctrl', function($scope,$http){
         $scope.reservasBD = {!! json_encode ($datos) !!};
+        $scope.alertReserva = false;
 
         $scope.habitacionBD = {};
         $scope.tipoHabitaciones=[
@@ -96,14 +97,23 @@
         }
 
         $scope.cambioFechaFin = function() {
-            $scope.calcularPago();
+            if ( $scope.alertReserva ) {
+                alert('Fin de reseravción debe ser mayor a la reserva inicial');
+                $scope.alertReserva = false;
+            } else {
+                $scope.calcularPago();
+            }
         }
 
         $scope.calcularPago = function(){
             let fecha1 = moment($scope.nuevaReserva.inicio_reserva);
             let fecha2 = moment($scope.nuevaReserva.fin_reserva);
             $scope.diferenciaDias = fecha2.diff(fecha1, 'days');
-            if ( $scope.diferenciaDias == 0) {
+            console.log($scope.diferenciaDias);
+            if ( $scope.diferenciaDias < 0) {
+                $scope.nuevaReserva.fin_reserva = null;
+                $scope.alertReserva = true;
+            }else if ( $scope.diferenciaDias == 0) {
                 $scope.nuevaReserva.totalPagar = $scope.precioHabitacion;
             }else {
                 $scope.nuevaReserva.totalPagar = $scope.diferenciaDias * $scope.precioHabitacion;
