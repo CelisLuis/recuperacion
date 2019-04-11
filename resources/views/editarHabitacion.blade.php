@@ -51,12 +51,15 @@
         //$scope.habitacion = {}; //Objeto donde se almacena la info de la habitación 
         $scope.habitacion={!! json_encode($habitacionEdit->toArray()) !!};//Carga datos en los inputs    
         
-        /*$scope.habitacionesBD={!! json_encode($habitacionEdit) !!};//Carga datos en los inputs    
+        $scope.habitacionesBD={!! json_encode($habitacionEdit->toArray()) !!};//Carga datos en los inputs    
         console.log($scope.habitacion);  
         console.log($scope.habitacionesBD);  
         $scope.esIgual=0;
         
+        alert($scope.habitacionesBD.length);
+        
         for(var x=0; x<$scope.habitacionesBD.length; x++){
+            console.log("entre");
             if($scope.habitacionesBD[x].cantidad_cuartos==$scope.habitacion.cantidad_cuartos){
                 alert("La cantidad de cuartos es igual a la ingresada");
                 $scope.habitacion.cantidad_cuartos='';
@@ -65,7 +68,7 @@
             }
             $scope.esIgual=0;
         }
-        console.log($scope.esIgual);*/
+        console.log($scope.esIgual);
         
         
         $scope.editar=function(){
