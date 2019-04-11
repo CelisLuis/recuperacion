@@ -50,16 +50,24 @@
     app.controller('ctrl', function($scope,$http){
         //$scope.habitacion = {}; //Objeto donde se almacena la info de la habitación 
         $scope.habitacion={!! json_encode($habitacionEdit->toArray()) !!};//Carga datos en los inputs    
-        console.log($scope.habitacion);    
         
-        /*for(var x=0; x<$scope.habitacion.length; x++){
-            console.log("Entré");
-                if($scope.habitacion[x].cantidad_cuartos==$scope.masCuartos.cantidad_cuartos){
-                    alert("La cantidad de cuartos debe ser mayor a la actual");
-                    $scope.masCuartos.cantidad_cuartos='';
-                    break;
-                }
-            }*/
+        /*$scope.habitacionesBD={!! json_encode($habitacionEdit) !!};//Carga datos en los inputs    
+        console.log($scope.habitacion);  
+        console.log($scope.habitacionesBD);  
+        $scope.esIgual=0;
+        
+        for(var x=0; x<$scope.habitacionesBD.length; x++){
+            if($scope.habitacionesBD[x].cantidad_cuartos==$scope.habitacion.cantidad_cuartos){
+                alert("La cantidad de cuartos es igual a la ingresada");
+                $scope.habitacion.cantidad_cuartos='';
+                $scope.esIgual=1;
+                break;
+            }
+            $scope.esIgual=0;
+        }
+        console.log($scope.esIgual);*/
+        
+        
         $scope.editar=function(){
             $http.post('/update/'+ {!! json_encode($habitacionEdit->id) !!}, $scope.habitacion).then(
             function(response){
