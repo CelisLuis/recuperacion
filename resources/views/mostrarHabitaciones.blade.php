@@ -48,33 +48,34 @@
         app.controller('ctrl', function($scope,$http){
            $scope.habitaciones = {!! json_encode ($datos->toArray()) !!};
            $scope.minimaCuartos = 2;
-
            $scope.mostrarBaja = false; //apartado para dar de baja
-
-
+            
            $scope.mandarMantenimiento = function( objetoRecibido ) {
                let cantidadBajar = prompt ( '¿Cuantos cuartos desea dar de baja?' );
+               if(!isNaN(cantidadBajar) && cantidadBajar != null && cantidadBajar != ""){
+                   prompt( 'Describe el motivo: ');
+                   let confirmacion = confirm( '¿Esta seguro de quitar ' + cantidadBajar + ' cuartos?');
+                   console.log( cantidadBajar );
+                   if( confirmacion ) {
+                       objetoRecibido.cantidad_cuartos = objetoRecibido.cantidad_cuartos - cantidadBajar;
+                       if ( objetoRecibido.cantidad_cuartos < $scope.minimaCuartos ){
+                           alert ( 'No se puede quitar todos los cuartos' );
+                           return;
+                       }else {
+                            $http.post('/updateCuartos/' + objetoRecibido.id, objetoRecibido).then(
+                            function(response){
+                                alert("¡Registro modificado con éxito!");
+                                location.reload();
+                            },function(errorResponse){
+                                alert("Ha ocurrido un error al modificar");
+                            });
+                       }
+                   }  
+  	           }else{
+                   alert('Favor de ingresar un número válido');
+  	           }
                if ( !cantidadBajar ){
                    return;
-               }
-               prompt( 'Describe el motivo: ');
-               let confirmacion = confirm( '¿Esta seguro de quitar ' + cantidadBajar + ' cuartos?');
-               console.log( cantidadBajar );
-               if( confirmacion ) {
-                   objetoRecibido.cantidad_cuartos = objetoRecibido.cantidad_cuartos - cantidadBajar;
-                   if ( objetoRecibido.cantidad_cuartos < $scope.minimaCuartos ){
-                       alert ( 'No se puede quitar todos los cuartos' );
-                       return;
-                   }else {
-                        $http.post('/updateCuartos/' + objetoRecibido.id, objetoRecibido).then(
-                        function(response){
-                            alert("¡Registro modificado con éxito!");
-                            location.reload();
-                        },function(errorResponse){
-                            alert("Ha ocurrido un error al modificar");
-                        });
-                   }
-                   
                }
            }
         });
