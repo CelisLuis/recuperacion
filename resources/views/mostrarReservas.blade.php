@@ -72,7 +72,7 @@
                             if( $scope.diferenciaDias > 0) {
                                 objetoReserva.totalPagar = $scope.diferenciaDias * response.data.precio_habitacion;
                                 console.log($scope.diferenciaDias, objetoReserva.totalPagar);
-                                let cantidadPagar = prompt('Total a pagar: '+ objetoReserva.totalPagar);
+                                let cantidadPagar = prompt('Total a pagar: '+ objetoReserva.totalPagar + '\nOjo: Este método de pago no da cambio, la cantidad debe ser exacta');
                                 if(!isNaN(cantidadPagar) && cantidadPagar != null && cantidadPagar != ""){
                                     if( cantidadPagar == objetoReserva.totalPagar ) {
                                         alert('Gracias por su visita');
@@ -80,14 +80,8 @@
                                         return;
                                     }else {
                                         objetoReserva.totalPagar = objetoReserva.totalPagar - cantidadPagar;
-                                        cantidadPagar = prompt('Falta pagar: '+ objetoReserva.totalPagar);
-                                        objetoReserva.totalPagar = objetoReserva.totalPagar - cantidadPagar;
-                                        if ( objetoReserva.totalPagar == 0 ){
-                                            alert('Gracias por su visita');
-                                            $scope.updateDelete( response.data, objetoReserva );
-                                            location.reload();
-                                            return;
-                                        }
+                                        alert("Ingrese la cantida indicada por favor e intentelo de nuevo");
+                                       
                                     }
                                     }else{
                                         alert('Favor de ingresar un número válido');
