@@ -53,6 +53,7 @@
                 <div class="col">
                 <br><button type="button" ng-click="guardar()" ng-disabled="!formHabitaciones.$valid" class="btn btn-success">GUARDAR</button>
                  <a href="{{url('/mostrar')}}"><button type="button" class="btn btn-info" id="btnMostrar">MOSTRAR DATOS</button></a>
+                <a href="{{url('/')}}"><button type="button" class="btn btn-outline-info" id="btnInicio">VOLVER AL NICIO</button></a>
                 </div>
             </form>
 
@@ -85,6 +86,9 @@
                 </div>
                 <br>
                 <button type="button" ng-click="editarCuartos()" ng-disabled="!formHabitaciones.$valid" class="btn btn-success">ACTUALIZAR</button>
+                <a href="{{url('/addHabitacion')}}"><button type="button" class="btn btn-info" id="btnInicio">VOLVER</button></a>
+                <a href="{{url('/')}}"><button type="button" class="btn btn-outline-info" id="btnInicio">VOLVER AL NICIO</button></a>
+                
                 <br>
                 <small><b> OJO: </b> Si desea modificar otras opciones ir al apartado mostrar habitaciones</small>
             </form>
@@ -107,8 +111,7 @@
         $scope.tipoCamas=[
                 {id:1, value:'Individual'},
                 {id:2, value:'Matrimonial'},
-                {id:3, value:'Queen size'},
-                {id:4, value:'King size'}
+                {id:3, value:'King size'}
             ];  //Arreglo con las opciones de tipo de cama
         $scope.selCama = null; 
         $scope.selHabitacion = null;
