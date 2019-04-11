@@ -52,6 +52,14 @@
         $scope.habitacion={!! json_encode($habitacionEdit->toArray()) !!};//Carga datos en los inputs    
         console.log($scope.habitacion);    
         
+        /*for(var x=0; x<$scope.habitacion.length; x++){
+            console.log("Entré");
+                if($scope.habitacion[x].cantidad_cuartos==$scope.masCuartos.cantidad_cuartos){
+                    alert("La cantidad de cuartos debe ser mayor a la actual");
+                    $scope.masCuartos.cantidad_cuartos='';
+                    break;
+                }
+            }*/
         $scope.editar=function(){
             $http.post('/update/'+ {!! json_encode($habitacionEdit->id) !!}, $scope.habitacion).then(
             function(response){
