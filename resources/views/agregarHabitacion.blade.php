@@ -145,13 +145,19 @@
             console.log( $scope.habitacion );
             for (let i = 0; i < $scope.habitacionesBD.length; i++ ){
                 if ($scope.selHabitacion.value == $scope.habitacionesBD[i].nombre_habitacion) {
-                    if( $scope.selCama.value == $scope.habitacionesBD[i].tipo_cama) {
+                    $scope.mostrarCantidadCuartos = true;
+                    $scope.cantidadCuartosBD = $scope.habitacionesBD[i].cantidad_cuartos;
+                    $scope.habitacionActualizar = $scope.habitacionesBD[i];
+                    return true;
+                    break;
+                    
+                    /*if( $scope.selCama.value == $scope.habitacionesBD[i].tipo_cama) {
                         $scope.mostrarCantidadCuartos = true;
                         $scope.cantidadCuartosBD = $scope.habitacionesBD[i].cantidad_cuartos;
                         $scope.habitacionActualizar = $scope.habitacionesBD[i];
                         return true;
                         break;
-                    }
+                    }*/
                 }
             } 
         };

@@ -26,7 +26,7 @@ class ReservasController extends Controller
         return view('nuevaReserva', compact('datos'));
     }
 
-    public function mostrarHabitaciones($id)
+    public function mostrarHabitacion($id)
     {
         $habitacion = Habitacion::find($id);
         return response()->json($habitacion);

@@ -113,7 +113,7 @@
         
         $scope.verificarHabitacion = function() {
             console.log($scope.selHabitacion.id);
-            $http.get('/mostrarHabitaciones/' + $scope.selHabitacion.id).then(
+            $http.get('/mostrarHabitacion/' + $scope.selHabitacion.id).then(
                 function( response ){
                     console.log(response.data);
                     $scope.habitacionBD.id = response.data.id;
