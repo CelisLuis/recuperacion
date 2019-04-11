@@ -23,6 +23,10 @@ Route::get ('/editar', function (){
    return view('editar'); 
 });
 
+Route::get ('/nuevaReserva', function (){
+   return view('nuevaReserva'); 
+});
+
 Route::get ('/mantenimiento', function (){
    return view('mantenimiento'); 
 });
