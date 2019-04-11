@@ -37,7 +37,7 @@
 
                 <div class="col">
                     <label>Cantidad de cuartos:</label>
-                    <input type="number" name="cuartos" ng-model="habitacion.numCuartos" min="1" max="20" maxlength="2" oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength)" required onkeydown="return event.keyCode !== 69 && event.keyCode !== 48 ">
+                    <input type="number" name="cuartos" ng-model="habitacion.numCuartos" min="1" max="30" maxlength="2" oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength)" required onkeydown="return event.keyCode !== 69 && event.keyCode !== 48 ">
                 </div>
                 
                 <div class="col">
@@ -84,7 +84,7 @@
                     <input type="text" ng-model="habitacionActualizar.precio_habitacion" disabled>
                 </div>
                 <br>
-                <button type="button" ng-click="editarCuartos()" ng-disabled="!formHabitaciones.$valid" class="btn btn-success">Actualizar</button>
+                <button type="button" ng-click="editarCuartos()" ng-disabled="!formHabitaciones.$valid" class="btn btn-success">ACTUALIZAR</button>
                 <br>
                 <small><b> OJO: </b> Si desea modificar otras opciones ir al apartado mostrar habitaciones</small>
             </form>
@@ -98,8 +98,6 @@
         $scope.habitacionesBD = {!! json_encode ($datos) !!};
         $scope.habitacionActualizar = {};
         $scope.habitacion = {}; //Objeto donde se almacena la info de la habitación 
-
-        console.log($scope.habitacionesBD);
 
         $scope.tipoHabitaciones=[
             {id:1, value:'Sencilla'},
@@ -115,7 +113,7 @@
         $scope.selCama = null; 
         $scope.selHabitacion = null;
 
-        // apartado mostrar cuartos 
+        //Apartado mostrar cuartos 
         $scope.mostrarCantidadCuartos = false;
         $scope.mostrarFormAgregar = true;
         $scope.mostrarFormActualizar = false;

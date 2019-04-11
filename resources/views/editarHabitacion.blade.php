@@ -15,13 +15,14 @@
             }
         </style>
     </head>
-    <body ng-controller="ctrl">
+    <body ng-controller="ctrl" class="container">
         <div class="container top">
             <form name="formEditHabitaciones" enctype="multipart/form-data">    
-            
+            <h1>Editar habitación</h1>
+                
                 <div class="col">
                     <label>Cantidad de cuartos:</label>
-                    <input type="number" ng-model="habitacion.cantidad_cuartos" min="1" max="20" maxlength="1" oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength)" required onkeydown="return event.keyCode !== 69 && event.keyCode !== 48 ">
+                    <input type="number" ng-model="habitacion.cantidad_cuartos" min="1" max="30" maxlength="2" oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength)" required onkeydown="return event.keyCode !== 69 && event.keyCode !== 48 ">
                 </div>
 
                 <div class="col">
@@ -36,9 +37,10 @@
                 </div>
                 
                 <div class="col">
-                <br><button type="button" ng-click="editar()" ng-disabled="!formEditHabitaciones.$valid" class="btn btn-outline-success">GUARDAR</button>
-                 <a href="{{url('/mostrar')}}"><button type="button" class="btn btn-outline-success" id="btnMostrar">MOSTRAR DATOS</button></a>
+                    <br><button type="button" ng-click="editar()" ng-disabled="!formEditHabitaciones.$valid" class="btn btn-outline-success">EDITAR</button>
+                    <a href="{{url('/mostrar')}}"><button type="button" class="btn btn-outline-success" id="btnMostrar">MOSTRAR DATOS</button></a>
                 </div>
+                
             </form>
         </div>
     </body>
@@ -48,37 +50,26 @@
 <script>
   var app=angular.module('app',[])
     app.controller('ctrl', function($scope,$http){
-        //$scope.habitacion = {}; //Objeto donde se almacena la info de la habitación 
-        $scope.habitacion={!! json_encode($habitacionEdit->toArray()) !!};//Carga datos en los inputs    
-        
-        $scope.habitacionesBD={!! json_encode($habitacionEdit->toArray()) !!};//Carga datos en los inputs    
-        console.log($scope.habitacion);  
-        console.log($scope.habitacionesBD);  
-        $scope.esIgual=0;
-        
-        alert($scope.habitacionesBD.length);
-        
-        for(var x=0; x<$scope.habitacionesBD.length; x++){
-            console.log("entre");
-            if($scope.habitacionesBD[x].cantidad_cuartos==$scope.habitacion.cantidad_cuartos){
-                alert("La cantidad de cuartos es igual a la ingresada");
-                $scope.habitacion.cantidad_cuartos='';
-                $scope.esIgual=1;
-                break;
-            }
-            $scope.esIgual=0;
-        }
-        console.log($scope.esIgual);
-        
+        $scope.habitacion = {!! json_encode($habitacionEdit->toArray()) !!}; //Objeto donde se almacena la info de la habitación 
+        $scope.habitacionesBD={!! json_encode($habitacionEdit) !!};//Carga datos en los inputs     
         
         $scope.editar=function(){
-            $http.post('/update/'+ {!! json_encode($habitacionEdit->id) !!}, $scope.habitacion).then(
-            function(response){
-                alert("¡Registro modificado con éxito!");
-                $scope.formEditHabitaciones.$setPristine();
-            },function(errorResponse){
-                alert("Ha ocurrido un error al modificar");
-            });
+            if($scope.habitacion.cantidad_cuartos>=$scope.habitacionesBD.cantidad_cuartos){
+                $http.post('/update/'+ {!! json_encode($habitacionEdit->id) !!}, $scope.habitacion).then(
+                function(response){
+                    $scope.formEditHabitaciones.$setPristine();
+                    alert("¡Registro modificado con éxito!");
+                    window.location.href="{{url('/mostrar')}}";
+                    $scope.habitacion.cantidad_cuartos=null;
+                    $scope.habitacion.cantidad_camas=null;
+                    $scope.habitacion.precio_habitacion=null;
+                },function(errorResponse){
+                    alert("Ha ocurrido un error al modificar");
+                });
+            }
+            else{
+                alert("La cantidad de cuartos debe ser mayor o igual a la antes registrada");
+            }
         }
 
     });
