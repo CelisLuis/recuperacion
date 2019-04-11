@@ -25,6 +25,7 @@ class HabitacionController extends Controller
         $datos = $habitaciones::all();
         return view('agregarHabitacion', compact('datos'));
     }
+    
 
     /**
      * Show the form for creating a new resource.

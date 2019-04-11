@@ -16,6 +16,8 @@ Route::get('/', function () {
 });
 
 Route::get('/addHabitacion', 'HabitacionController@indexPrincipal');
+Route::get('/addReservas', 'ReservasController@indexPrincipal');
+Route::get('/mostrarHabitaciones/{id}', 'ReservasController@mostrarHabitaciones');
 
 Route::get ('/editar', function (){
    return view('editar'); 

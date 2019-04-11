@@ -55,9 +55,7 @@
         console.log($scope.habitacion);  
         console.log($scope.habitacionesBD);  
         $scope.esIgual=0;
-        
-        alert($scope.habitacionesBD.length);
-        
+                
         for(var x=0; x<$scope.habitacionesBD.length; x++){
             console.log("entre");
             if($scope.habitacionesBD[x].cantidad_cuartos==$scope.habitacion.cantidad_cuartos){

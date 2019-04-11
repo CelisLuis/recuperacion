@@ -7,6 +7,7 @@
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"
               integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
         <script src="{{asset('js/angular.js')}}" type="text/javascript"></script>
+        <script src="{{asset('js/moment.min.js')}}" type="text/javascript"></script>
 
         <title>Reservaciones</title>
         <style type="text/css">
@@ -17,41 +18,118 @@
             }
         </style>
     </head>
-    <body>
-        <div ng-controller="ctrl" class="container top">
+    <body ng-controller="ctrl">
+        <div  class="container top">
             <form name="formReservaciones" enctype="multipart/form-data">
                 <h3>Nueva reservación</h3>
                 <div class="col">
                     <label>Nombre(s):</label>
-                    <input type="text" required maxlength="50" ng-model="reservacion.nombre">
+                    <input type="text" required maxlength="50" ng-model="nuevaReserva.nombre_cliente">
                 </div>
                 <div class="col">
                     <label>Apellido(s):</label>
-                    <input type="text" required maxlength="50" ng-model="reservacion.nombre">
+                    <input type="text" required maxlength="50" ng-model="nuevaReserva.apellido_cliente">
                 </div>
                 <div class="col">
                     <label>Fecha de nacimiento:</label>
-                    <input type="date" required ng-model="reservacion.fechaNac">
+                <input type="date" min="1869-01-01" max="{{ Date('Y-m-d')}}" ng-change="calcularEdad()" required ng-model="nuevaReserva.fecha_nacimiento">
                 </div>
                 <div class="col">
                     <label>Edad:</label>
-                    <input type="number" required disabled maxlength="3" ng-model="reservacion.edad">
+                    <input type="number" disabled maxlength="3" ng-model="mostrarEdad">
                 </div>
                 <div class="col">
                     <label>Inicio de reservación:</label>
-                    <input type="date" required ng-model="reservacion.fechaInicio">
+                <input type="date" min="{{Date('Y-m-d')}}" max="2020-01-01" required ng-model="nuevaReserva.inicio_reserva">
                 </div>
                 <div class="col">
                     <label>Fin de reservación:</label>
-                    <input type="date" required ng-model="reservacion.fechaFinal">
+                    <input type="date" min="{{Date('Y-m-d')}}" max="2020-01-01" required ng-model="nuevaReserva.fin_reserva">
                 </div>
                 <div class="col">
                     <label>Habitaciones:</label>
-                    <select ng-options="habitacion.value for habitacion in tipoHabitaciones track by habitacion.id" name="habitacion" ng-model="selHabitacion" required>
+                    <select ng-options="habitacion.value for habitacion in tipoHabitaciones track by habitacion.id" name="habitacion" ng-change="verificarHabitacion()" ng-model="selHabitacion" required>
                         <option value="">Selecciona la habitación que desees</option>
                     </select>
+                </div>
+                <div class="col">
+                    <label>Total $: </label>
+                    <input type="number" disabled maxlength="5" ng-model="nuevaReserva.totalPagar">
+                </div>
+                <div class="col">
+                <br>
+                <button type="button" ng-click="guardar()" ng-disabled="!formReservaciones.$valid" class="btn btn-success">GUARDAR</button>
+                <a href="{{url('/mostrarReservaciones')}}"><button type="button" class="btn btn-info" id="btnMostrar">Reservaciones</button></a>
                 </div>
             </form>
         </div>
     </body>
+
+
+    <script>
+  var app=angular.module('app',[])
+    app.controller('ctrl', function($scope,$http){
+        $scope.reservasBD = {!! json_encode ($datos) !!};
+        $scope.tipoHabitaciones=[
+            {id:1, value:'Sencilla'},
+            {id:2, value:'Junior'},
+            {id:3, value:'Presidencial'}
+        ];
+        $scope.nuevaReserva = {};
+        $scope.nuevaReserva.inicio_reserva = new Date();
+        $scope.nuevaReserva.fin_reserva = new Date();
+        $scope.mostrarEdad = null;
+        $scope.isLegal = false;
+        $scope.isReservable = false;
+        $scope.selHabitacion = null;
+        console.log($scope.reservasBD);
+
+
+        $scope.calcularEdad = function() {
+            console.log($scope.nuevaReserva.fecha_nacimiento);
+            $scope.mostrarEdad = moment().diff($scope.nuevaReserva.fecha_nacimiento, 'years');
+            $scope.isLegal = ($scope.mostrarEdad >= 18);
+            console.log($scope.isLegal);
+        }
+
+        $scope.calcularPago = function( precioHabitacion ){
+            let fecha1 = moment($scope.nuevaReserva.inicio_reserva);
+            let fecha2 = moment($scope.nuevaReserva.fin_reserva);
+            $scope.diferenciaDias = fecha2.diff(fecha1, 'days');
+            $scope.nuevaReserva.totalPagar = $scope.diferenciaDias * precioHabitacion;
+        }
+        
+        $scope.verificarHabitacion = function() {
+            console.log($scope.selHabitacion.id);
+            $http.get('/mostrarHabitaciones/' + $scope.selHabitacion.id).then(
+                function( response ){
+                    console.log(response.data);
+                    $scope.calcularPago( response.data.precio_habitacion );
+                    if( response.data.cantidad_cuartos > 0 ){
+                        $scope.isReservable = true;
+                        console.log( 'entro ');
+                    }
+                }, function( errorResponse) {
+
+                }
+            );
+        }
+
+        $scope.guardar = function() {
+            $scope.nuevaReserva.id_habitacion = $scope.selHabitacion.id;
+            if ( $scope.isReservable && $scope.isLegal ){
+                console.log($scope.nuevaReserva);
+            }else if ( !$scope.isLegal ) {
+                alert('Debes ser mayor de edad');
+                location.reload();
+                return;
+            }else {
+                alert('Habitaciones sin disponibilidad');
+                location.reload();
+                return;
+            }
+        }
+    });
+    
+</script>
 </html>
