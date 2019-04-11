@@ -55,6 +55,9 @@
 
            $scope.mandarMantenimiento = function( objetoRecibido ) {
                let cantidadBajar = prompt ( '¿Cuantos cuartos desea dar de baja?' );
+               if ( !cantidadBajar ){
+                   return;
+               }
                prompt( 'Describe el motivo: ');
                let confirmacion = confirm( '¿Esta seguro de quitar ' + cantidadBajar + ' cuartos?');
                console.log( cantidadBajar );
