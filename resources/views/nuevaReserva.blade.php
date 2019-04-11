@@ -44,7 +44,7 @@
                 </div>
                 <div class="col">
                     <label>Fin de reservación:</label>
-                    <input type="date" min="{{Date('Y-m-d')}}" max="2020-01-01" required ng-model="nuevaReserva.fin_reserva">
+                    <input type="date" min="{{Date('Y-m-d')}}" max="2020-01-01" ng-change="cambioFechaFin()" required ng-model="nuevaReserva.fin_reserva">
                 </div>
                 <div class="col">
                     <label>Habitaciones:</label>
@@ -70,14 +70,17 @@
   var app=angular.module('app',[])
     app.controller('ctrl', function($scope,$http){
         $scope.reservasBD = {!! json_encode ($datos) !!};
+
+        $scope.habitacionBD = {};
         $scope.tipoHabitaciones=[
             {id:1, value:'Sencilla'},
             {id:2, value:'Junior'},
             {id:3, value:'Presidencial'}
         ];
         $scope.nuevaReserva = {};
-        $scope.nuevaReserva.inicio_reserva = new Date();
-        $scope.nuevaReserva.fin_reserva = new Date();
+        //$scope.nuevaReserva.inicio_reserva = new Date();
+        //$scope.nuevaReserva.fin_reserva = new Date();
+        $scope.precioHabitacion = 0;
         $scope.mostrarEdad = null;
         $scope.isLegal = false;
         $scope.isReservable = false;
@@ -92,11 +95,20 @@
             console.log($scope.isLegal);
         }
 
-        $scope.calcularPago = function( precioHabitacion ){
+        $scope.cambioFechaFin = function() {
+            $scope.calcularPago();
+        }
+
+        $scope.calcularPago = function(){
             let fecha1 = moment($scope.nuevaReserva.inicio_reserva);
             let fecha2 = moment($scope.nuevaReserva.fin_reserva);
             $scope.diferenciaDias = fecha2.diff(fecha1, 'days');
-            $scope.nuevaReserva.totalPagar = $scope.diferenciaDias * precioHabitacion;
+            if ( $scope.diferenciaDias == 0) {
+                $scope.nuevaReserva.totalPagar = $scope.precioHabitacion;
+            }else {
+                $scope.nuevaReserva.totalPagar = $scope.diferenciaDias * $scope.precioHabitacion;
+            }
+            
         }
         
         $scope.verificarHabitacion = function() {
@@ -104,7 +116,10 @@
             $http.get('/mostrarHabitaciones/' + $scope.selHabitacion.id).then(
                 function( response ){
                     console.log(response.data);
-                    $scope.calcularPago( response.data.precio_habitacion );
+                    $scope.habitacionBD.id = response.data.id;
+                    $scope.habitacionBD.cantidad_cuartos = response.data.cantidad_cuartos;
+                    $scope.precioHabitacion = response.data.precio_habitacion;
+                    $scope.calcularPago();
                     if( response.data.cantidad_cuartos > 0 ){
                         $scope.isReservable = true;
                         console.log( 'entro ');
@@ -115,10 +130,36 @@
             );
         }
 
+        $scope.sacarFecha = function( fecha ) {
+            let dia = fecha.getDate();
+            let mes = fecha.getMonth() + 1;
+            let anio = fecha.getFullYear();
+            return anio + '/' + mes + '/' + dia;
+        }
+
         $scope.guardar = function() {
             $scope.nuevaReserva.id_habitacion = $scope.selHabitacion.id;
+            $scope.nuevaReserva.inicio_reserva = $scope.sacarFecha( $scope.nuevaReserva.inicio_reserva );
+            $scope.nuevaReserva.fin_reserva = $scope.sacarFecha( $scope.nuevaReserva.fin_reserva );
+            $scope.nuevaReserva.fecha_nacimiento = $scope.sacarFecha( $scope.nuevaReserva.fecha_nacimiento );
+
+
+            console.log($scope.nuevaReserva.inicio_reserva);
             if ( $scope.isReservable && $scope.isLegal ){
                 console.log($scope.nuevaReserva);
+                $http.post('/reservar', $scope.nuevaReserva).then(
+                    function(response){
+                        $scope.habitacionBD.cantidad_cuartos = $scope.habitacionBD.cantidad_cuartos - 1;
+                        $http.post('/updateCuartos/' + $scope.habitacionBD.id, $scope.habitacionBD).then(
+                        function(response){
+                            location.reload();
+                        },function(errorResponse){
+                            alert("Ha ocurrido un error al modificar");
+                        });
+                    }, function(errorResponse){
+                        
+                    }
+                )
             }else if ( !$scope.isLegal ) {
                 alert('Debes ser mayor de edad');
                 location.reload();

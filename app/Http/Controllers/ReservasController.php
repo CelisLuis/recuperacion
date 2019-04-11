@@ -50,7 +50,16 @@ class ReservasController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $datos = new Reserva();
+        $datos->id_habitacion = $request->id_habitacion;
+        $datos->nombre_cliente = $request->nombre_cliente;
+        $datos->apellido_cliente = $request->apellido_cliente;
+        $datos->fecha_nacimiento = $request->fecha_nacimiento;
+        $datos->inicio_reserva = $request->inicio_reserva;
+        $datos->fin_reserva = $request->fin_reserva;
+        $datos->costo = $request->totalPagar;
+        $datos->save();
+        return $datos->id;
     }
 
     /**

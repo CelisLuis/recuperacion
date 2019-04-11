@@ -19,6 +19,8 @@ Route::get('/addHabitacion', 'HabitacionController@indexPrincipal');
 Route::get('/addReservas', 'ReservasController@indexPrincipal');
 Route::get('/mostrarHabitaciones/{id}', 'ReservasController@mostrarHabitaciones');
 
+Route::post('/reservar', 'ReservasController@store');
+
 Route::get ('/editar', function (){
    return view('editar'); 
 });
