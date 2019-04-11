@@ -136,7 +136,9 @@
                 console.log( $scope.reservaBD );
                 $http.post('/updateReservas/' + $scope.reservaBD.id, $scope.reservaBD).then(
                     function( response ) {
-                        location.reload();
+                    window.location.href="{{url('/mostrarReservas')}}";
+                    $scope.habitacion.inicio_reserva=null;
+                    $scope.habitacion.fin_reserva=null;
                     }, function( errorResponse ) {
 
                     }

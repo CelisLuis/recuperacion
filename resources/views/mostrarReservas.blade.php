@@ -96,7 +96,7 @@
                    } 
                } else {
                     console.log("else");
-                    if ( confirm('No tiene costo, ¿Desea cancelar?')) {
+                    if ( confirm('Esta reservación aún no comienza ¿Desea cancelar?')) {
                         $http.get('/mostrarHabitacion/' + objetoReserva.id_habitacion).then(
                         function( response ) {
                             console.log( response.data );
