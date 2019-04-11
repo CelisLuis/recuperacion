@@ -50,20 +50,84 @@
 </body>
     <script>
         var app=angular.module('app',[])
-        app.controller('ctrl', function($scope,$http){
+        app.controller('ctrl', function($scope,$http, $filter){
            $scope.habitaciones = {!! json_encode ($datos->toArray()) !!};
+           $scope.habitacionUpdate = {};
            $scope.minimaCuartos = 2;
-           $scope.mostrarBaja = false; //apartado para dar de baja
             
            $scope.bajaReserva = function( objetoReserva ) {
                console.log( objetoReserva );
-               let inicioReserva = moment(objetoReserva.inicio_reserva);
-               let fechaAcutal = moment();
+               let fechaActual = new Date();
+               let inicioReserva = new Date($filter('date')(objetoReserva.inicio_reserva));
+               let finReserva = new Date($filter('date')(objetoReserva.fin_reserva));
 
-               if( inicioReserva >= fechaAcutal ){
-                   console.log(inicioReserva);
+               if( inicioReserva < fechaActual ) {
+                   if( confirm('¿Desea cancelar?') ) {
+                        $http.get('/mostrarHabitacion/' + objetoReserva.id_habitacion).then(
+                        function( response ){
+                            console.log(response.data);
+                            let fecha1 = moment(objetoReserva.inicio_reserva);
+                            let fecha2 = moment(fechaActual);
+                            $scope.diferenciaDias = fecha2.diff(fecha1, 'days');
+                            if( $scope.diferenciaDias > 0) {
+                                objetoReserva.totalPagar = $scope.diferenciaDias * response.data.precio_habitacion;
+                                console.log($scope.diferenciaDias, objetoReserva.totalPagar);
+                                let cantidadPagar = prompt('Total a pagar: '+ objetoReserva.totalPagar);
+                                if( cantidadPagar == objetoReserva.totalPagar ) {
+                                    alert('Gracias por su visita');
+                                    $scope.updateDelete( response.data, objetoReserva );
+                                    return;
+                                }else {
+                                    objetoReserva.totalPagar = objetoReserva.totalPagar - cantidadPagar;
+                                    cantidadPagar = prompt('Falta pagar: '+ objetoReserva.totalPagar);
+                                    objetoReserva.totalPagar = objetoReserva.totalPagar - cantidadPagar;
+                                    if ( objetoReserva.totalPagar == 0 ){
+                                        alert('Gracias por su visita');
+                                        $scope.updateDelete( response.data, objetoReserva );
+                                        location.reload();
+                                        return;
+                                    }
+                                }
+                            }else {
+                                alert( 'No se puede cancelar el mismo día' );
+                                return;
+                            }
+                        }, function( errorResponse) {
 
+                        })
+                   } 
+               } else {
+                    console.log("else");
+                    if ( confirm('No tiene costo, ¿Desea cancelar?')) {
+                        $http.get('/mostrarHabitacion/' + objetoReserva.id_habitacion).then(
+                        function( response ) {
+                            console.log( response.data );
+                            alert('Gracias por su visita');
+                            $scope.updateDelete( response.data, objetoReserva );
+                            return;
+                        }, function( errorResponse ) {
+
+                        })
+                    }
+                    
                }
+           }
+
+           $scope.updateDelete = function( habitacionUpdate, reservaDelete ) {
+               
+                console.log( habitacionUpdate, reservaDelete );
+                $http.post('/borrarReserva/' + reservaDelete.id).then(
+                function(response){
+                    habitacionUpdate.cantidad_cuartos = habitacionUpdate.cantidad_cuartos + 1;
+                    $http.post('/updateCuartos/' + habitacionUpdate.id, habitacionUpdate).then(
+                    function(response){
+                        location.reload();
+                    },function(errorResponse){
+                        alert("Ha ocurrido un error al modificar");
+                    });
+                }, function(errorResponse){
+                    
+                })
            }
         });
     </script>
